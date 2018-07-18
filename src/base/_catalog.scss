@@ -1,0 +1,29 @@
+.sidenav---sidenav---_2tBP {
+    height: 100% !important;
+    min-height: $min-page-height;
+    margin-top: $topBar-height;
+
+    
+    // .metismenu-link:hover {
+    //     text-decoration: none;
+    // }
+    // .metismenu-link .active {
+    //     color: green;
+    // }
+}
+.container .container-fluid {
+    height: 100%;
+}
+.resources {
+    height: 100%;
+}
+.info-wrap {
+    margin-left: 240px;
+    margin-right: 40px;
+    .info-card {
+        width: 100%;
+        min-height: 150px;
+        margin: 20px;
+        background: blue;
+    }
+}

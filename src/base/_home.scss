@@ -1,0 +1,54 @@
+$carousel-height: 500px;
+.carousel {
+    height: $carousel-height;
+    margin-top: $topBar-height; 
+    .carousel-inner {
+        .item {
+            img {
+                height: $carousel-height;
+                min-width: 100%;
+            }
+        }
+    }
+    .carousel-caption {
+        z-index: 10;
+        h1 {
+            font-weight: 700;
+        }
+        p {
+            font-weight: 700;
+        }
+    }
+  } 
+.carousel-fade {
+    .carousel-inner .item {
+        opacity: 0;
+        -webkit-transition-property: opacity;
+        transition-property: opacity;
+    }
+    .carousel-inner {
+        .active {
+            opacity: 1;
+        }
+        .active.left,
+        .active.right {
+            left: 0;
+            opacity: 0;
+            z-index: 1;
+        }
+        .next.left,
+        .prev.right {
+            opacity: 1;
+        }
+    }
+    .carousel-control {
+        z-index: 2;
+    }
+}
+.carousel-control.left,
+.carousel-control.right {
+background: none;
+}
+.carousel-control {
+width: 6%;
+}

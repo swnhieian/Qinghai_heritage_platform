@@ -1,0 +1,30 @@
+{
+  "name": "platform",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.1.0",
+    "@trendmicro/react-sidenav": "^0.4.5",
+    "bootstrap": "^3.3.7",
+    "node-sass-chokidar": "^1.3.0",
+    "npm-run-all": "^4.1.3",
+    "react": "^16.4.1",
+    "react-bootstrap": "^0.32.1",
+    "react-dom": "^16.4.1",
+    "react-metismenu": "^1.4.0-alpha.2",
+    "react-metismenu-router-link": "^2.1.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "1.1.4",
+    "react-side-menu": "^0.1.2"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/ -o src/dist/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/dist/ --watch --source-map-root src/dist/ --source-map true --source-map-embed --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build-js": "react-scripts build",
+    "build": "npm-run-all build-css build-js",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

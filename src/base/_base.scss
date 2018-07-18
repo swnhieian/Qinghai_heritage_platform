@@ -1,0 +1,13 @@
+body {
+    font-family: $font-stack;
+    //background-color: $nav-bg;
+    //font-size: 13px;
+    color: $text-color;
+    overflow-x: hidden;
+}  
+html,body {
+    height: 100%;
+}
+.no-padding {
+    padding: 0 !important;
+}
