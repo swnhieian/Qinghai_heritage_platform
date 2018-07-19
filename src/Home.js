@@ -3,8 +3,10 @@ import {Carousel} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './dist/style.css';
 
-class Home extends Component {
+class Home extends Component {    
     render() {
+      let catalog = ['竞技', '美术', '民俗', '曲艺', '手工艺', '文学', '舞蹈', '戏剧', '医药', '音乐'];
+      let catalogs = catalog.map((item) => (<div>{item}</div>));
         return (
        <div>
         <Carousel className="carousel carousel-fade">
@@ -31,7 +33,9 @@ class Home extends Component {
           </Carousel.Item>
         </Carousel>
 
-        <div className="carousel">10 blocks</div>
+        <div className="carousel">
+          {catalogs}
+        </div>
         <div className="carousel">very high</div>
         <div className="carousel">very high</div>
 
