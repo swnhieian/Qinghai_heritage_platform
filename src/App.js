@@ -7,6 +7,7 @@ import Home from './Home';
 import Catalog from './Catalog';
 import About from './About';
 import Detail from './Detail';
+import Footer from './Footer';
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class App extends Component {
           <Route path="/details/:id?" component={Detail}></Route>
           <Route path="/about" component={About}></Route>
         </div>
+        <Footer></Footer>
       </div>
       </Router>
     );

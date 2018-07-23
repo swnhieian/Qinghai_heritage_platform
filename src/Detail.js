@@ -3,6 +3,7 @@ import './dist/style.css';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
 import {Grid, Row, Col} from 'react-bootstrap';
+import GotoTop from './GotoTop';
 
 
 class Detail extends Component {
@@ -69,14 +70,15 @@ class Detail extends Component {
                   <Col>
                     <h1 className='detail-title'>{details.title}</h1>
                     <div class='detail-gallery'>
-                     <ImageGallery className='detail-gallery' items={details.gallery} />
+                     <ImageGallery className='detail-gallery' lazyLoad items={details.gallery} />
                     </div> 
                     <div className='detail-content'>
                         {content}
                     </div>
                   </Col>
               </Row>
-          </Grid>        
+          </Grid> 
+          <GotoTop />
       </div>)
     }
 }
