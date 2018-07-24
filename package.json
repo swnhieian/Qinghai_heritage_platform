@@ -37,5 +37,11 @@
     "/api/*": {
       "target": "http://localhost:3001/"
     }
+  },
+  "devDependencies": {
+    "fluent-ffmpeg": "^2.1.2",
+    "fs": "^0.0.1-security",
+    "glob": "^7.1.2",
+    "video-thumbnail-generator": "^1.1.3"
   }
 }
