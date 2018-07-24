@@ -8,6 +8,7 @@ import Catalog from './Catalog';
 // import About from './About';
 import Detail from './Detail';
 import Footer from './Footer';
+import SearchResults from './SearchResults';
 
 class App extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class App extends Component {
           <Route exact path="/" component={Home}></Route>
           <Route path="/catalog" component={Catalog}></Route>          
           <Route path="/detail/:title" component={Detail}></Route>
+          <Route path="/search" component={SearchResults}></Route>
           {/*<Route path="/about" component={About}></Route> */}
         </div>
         <Footer></Footer>

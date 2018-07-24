@@ -1,33 +1,41 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container, Navbar, Form, Input, Collapse, NavbarBrand, NavLink, NavItem , NavbarToggler, Nav} from 'reactstrap';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 import './dist/style.css';
 
 class TopBar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      searchText: '',
+      isOpen: false
+    };
     this.toggle = this.toggle.bind(this);
-    this.state = {isOpen : false};
+    this.onChange = this.onChange.bind(this);
+    this.onKeyup = this.onKeyup.bind(this);
+    this.handler = this.handler.bind(this);
   }
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+  onChange(e) {
+    this.setState({
+        searchText : e.target.value
+     });
+     console.log(this.props);
+  }
+  onKeyup(e) {
+      e.keyCode === 13 && this.handler()
+  }
+  handler() {
+      // 你的逻辑
+      this.props.history.push('/search');
+  }
     render() {
-      const resourceMenuItems = [
-        {name: 'a', id:'a'},
-        {name: 'b', id:'b'},
-        {name: 'c', id:'c'},
-        {name: 'd', id:'d'},
-        {name: 'e', id:'e'},
-        {name: 'f', id:'f'},
-        {name: 'g', id:'g'},
-        {name: 'h', id:'h'},
-        {name: 'i', id:'i'},
-      ];
       
       return (
       
@@ -53,7 +61,7 @@ class TopBar extends Component {
             </NavItem>          
           </Nav>  
           <Form inline>
-            <Input type="text" name="search" id="exampleEmail" placeholder="搜索" />
+            <Input type="text" name="word" onChange={this.onChange} onSubmit={this.handler} onKeyDown={this.onKeyup} placeholder="搜索" />
           </Form>
         </Collapse>
         </Container>
@@ -62,4 +70,4 @@ class TopBar extends Component {
        )
     }
 }
-export default TopBar;
+export default withRouter(TopBar);

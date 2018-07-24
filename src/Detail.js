@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import './dist/style.css';
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -42,7 +41,7 @@ class Detail extends Component {
             return this.state.loaded ? (
                 <div>
                   <p>No Page for {this.props.match.params.title}</p>
-                  <p>Try url http://localhost:port/details/河湟皮影</p>
+                  <p>Try url http://localhost:port/detail/河湟皮影</p>
                 </div>
             ) : (<div></div>);
         }

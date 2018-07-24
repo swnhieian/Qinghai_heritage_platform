@@ -40,7 +40,7 @@ class Catalog extends Component {
                             return (
                                 <Col lg="4" key={i.id}> 
                                   <div className="heritage-card">                                 
-                                  <Link to={'/detail/'+i.id} className="heritage-link" style={{'background-image':'url("/img/example.jpg")'}}>
+                                  <Link to={'/detail/'+i.id} className="heritage-link" style={{'backgroundImage':'url("/img/example.jpg")'}}>
                                         <div className="heritage-name">{i.name}</div>
                                   </Link>
                                   </div>
