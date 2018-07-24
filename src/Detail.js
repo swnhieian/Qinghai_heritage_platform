@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './dist/style.css';
 import "react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from 'react-image-gallery';
+// import ImageGallery from 'react-image-gallery';
+import MultimediaGallery from "./MultimediaGallery";
 import {Grid, Row, Col} from 'react-bootstrap';
 import GotoTop from './GotoTop';
 
@@ -10,12 +11,10 @@ class Detail extends Component {
 
     constructor() {
         super();
-        this.state = {};
-        console.log("constructor");
+        this.state = {loaded: false};
     }
 
     componentDidMount() {
-        console.log("componentDidMount");
         this.loadData();
     }
 
@@ -26,7 +25,7 @@ class Detail extends Component {
                 console.log("Got Response:", response);
                 response.json().then(data => {
                     console.log("Got data:", data);
-                    this.setState({details: data.item});
+                    this.setState({details: data.item, loaded: true});
                 });
             } else {
                 response.json().then(error => {
@@ -41,12 +40,12 @@ class Detail extends Component {
     render() {
         const details = this.state.details;
         if (details === undefined || details === null) {
-            return (
+            return this.state.loaded ? (
                 <div>
                   <p>No Page for {this.props.match.params.title}</p>
                   <p>Try url http://localhost:port/details/河湟皮影</p>
                 </div>
-            );
+            ) : (<div></div>);
         }
         const content = details.content.map((item) => {
             switch (item.type) {
@@ -72,8 +71,8 @@ class Detail extends Component {
                   <Col>
                     <h1 className='detail-title'>{details.title}</h1>
                     <div className='detail-gallery'>
-                      <ImageGallery className='detail-gallery'
-                                    lazyLoad items={details.gallery} />
+                      <MultimediaGallery className="detail-gallery"
+                                        items={details.gallery}/>
                     </div> 
                     <div className='detail-content'>
                       {content}

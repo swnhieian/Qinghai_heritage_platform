@@ -7,21 +7,23 @@ db.items.insert([
     {
         title: '河湟皮影',
         category0: '手工艺',
-        category1: '皮影',
+        category1: '',
         location: '',
         gallery: [
             {
-                original: '/img/1.jpg',
-                thumbnail: '/img/1.jpg',
+                original: '/img/IMG_20171202_160134.jpg',
             },
             {
-                original: '/img/2.jpg',
-                thumbnail: '/img/2.jpg'
+                original: '/img/IMG_20171202_160128.jpg',
             },
             {
-                original: '/img/3.jpg',
-                thumbnail: '/img/3.jpg'
-            }
+                original: '/img/IMG_20171202_155957.jpg',
+            },
+            {
+                type: "video",
+                embedUrl: '/img/皮影1.mp4',
+                original: '/img/example-640x480.jpg',
+            },
         ],
         content: [
             {
