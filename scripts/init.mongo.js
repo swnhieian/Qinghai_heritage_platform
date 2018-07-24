@@ -1,54 +1,41 @@
-// mongo scripts/init.mongo.js
-db = new Mongo().getDB('qinghai_heritage');
+// node scripts/init.mongo.js
+// https://mongodb.github.io/node-mongodb-native/3.0/api/index.html
 
-db.items.remove({});
+const MongoClient = require("mongodb").MongoClient;
+const url = "mongodb://localhost:27017";
+const dbname = "qinghai_heritage";
 
-db.items.insert([
-    {
-        title: '河湟皮影',
-        category0: '手工艺',
-        category1: '',
-        location: '',
-        gallery: [
-            {
-                original: '/img/IMG_20171202_160134.jpg',
-            },
-            {
-                original: '/img/IMG_20171202_160128.jpg',
-            },
-            {
-                original: '/img/IMG_20171202_155957.jpg',
-            },
-            {
-                type: "video",
-                embedUrl: '/img/皮影1.mp4',
-                original: '/img/example-640x480.jpg',
-            },
-        ],
-        content: [
-            {
-                type: 'text',
-                content: '皮影戏又名“灯影戏”、“皮影子”，是中国民间融戏剧、文学、音乐、美术为一体的一种古老而奇特的戏曲艺术。一块白布就是舞台，尺把长的小人在幕后被演员操作得得心应手，当灯光穿过皮影，白布另一侧便显现出色彩明艳、栩栩如生的人物、花鸟、楼宇等各种动态人物和静态事物，人物动作娴熟、花鸟形象逼真,素有“银灯映照千员将，一箱容下百万兵”的美称。'
-            },
-            {
-                type: 'text',
-                content: '河湟皮影戏的流行区域主要分布在西宁、大通、湟中、平安、互助、乐都、化隆、贵德及湟源、民和、循化等县市。'
-            },
-            {
-                type: 'image',
-                src: '/img/example.jpg',
-                caption: '某某某在做某某'
-            },
-            {
-                type: 'text',
-                content: '河湟皮影戏演出剧目以《五子魁》、《红罗传》、《康熙征北》、《女状元》等一些传统剧目为主，也有《十唱感谢共产党》、《卖牛记》等新编现代戏，还有男女分腔演唱的《二堂舍子》。'
-            },
-            {
-                type: 'text',
-                content: '2008年“河湟皮影戏”列入第二批国家级非物质文化遗产保护名录，2011年入选联合国教科文组织“人类非物质文化遗产代表作名录”。'
-            }
-        ]
+const path = require("path");
+const glob = require("glob");
+const fs = require("fs");
+
+let pattern = path.join(__dirname, "..", "json_db", "*", "*.json");
+let items;
+glob(pattern, (error, files) => {
+    if (error) {
+        console.log("ERROR: ", error);
+        process.exit(-1);
     }
-]);
+    items = files.map(filepath => {
+        let rawjson = fs.readFileSync(filepath);
+        let item = JSON.parse(rawjson);
+        console.log(filepath);
+        return item;
+    });
+});
 
-// db.items.createIndex({ category0: 1 });
+let client, db, collection;
+MongoClient.connect(url, {useNewUrlParser: true}).then(conn => {
+    client = conn;
+    db = client.db(dbname);
+    collection = db.collection("items");
+    return collection.remove({});
+}).then(result => {
+    console.log("Result of remove: ", result.result);
+    return collection.insert(items);
+}).then(result => {
+    console.log("Result of insert: ", result.result);
+    client.close();
+}).catch(error => {
+    console.log("ERROR: ", error);
+});

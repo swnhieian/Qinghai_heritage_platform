@@ -41,43 +41,48 @@ class Detail extends Component {
             return this.state.loaded ? (
                 <div>
                   <p>No Page for {this.props.match.params.title}</p>
-                  <p>Try url http://localhost:port/detail/河湟皮影</p>
+                  <p>Try url http://localhost:port/detail/湟源陈醋</p>
+
                 </div>
             ) : (<div></div>);
         }
         
-        const content = details.content.map((item) => {
+        const content = details.contents.map((item) => {
             switch (item.type) {
-                case 'text':
-                    return (<p className='detail-text'>{item.content}</p>);
-                case 'image':
-                    return (<div className='detail-media'>
-                                <img src={item.src} />
-                                <div className='detail-media-caption'>{item.caption}</div>
-                            </div>)
-                default:
-                    return (<div></div>)
+            case 'text':
+                const paras = item.content.split("\\endl").map(para => (
+                    <p className='detail-text'>{para}</p>
+                ));
+                return (<div>{paras}</div>);
+            case 'image':
+                return (<div className='detail-media'>
+                        <img src={item.src} alt={item.src}/>
+                        <div className='detail-media-caption'>{item.caption}</div>
+                        </div>);
+            default:
+                return (<div></div>);
             }
         });
         return (
-       <div className="detail-wrapper">
-          <Container>
-              <Row>
+            <div className="detail-wrapper">
+              <Container>
+                <Row>
                   <Col>
                     <h1 className='detail-title'>{details.title}</h1>
-                    <div class='detail-gallery'>
-                    <MultimediaGallery className="detail-gallery"
-                                        items={details.gallery}/>
-                    </div> 
                     <div className='detail-content'>
-                        {content}
+                      {content}
                     </div>
+                    <div className='detail-gallery'>
+                      <MultimediaGallery className="detail-gallery"
+                                         items={details.gallery}/>
+                    </div> 
                   </Col>
-              </Row>
-          </Container> 
-          <GotoTop />
-      </div>)
+                </Row>
+              </Container> 
+              <GotoTop />
+            </div>
+        );
     }
 }
 export default Detail;
-      
+

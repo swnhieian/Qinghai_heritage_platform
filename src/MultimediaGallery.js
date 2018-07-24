@@ -56,9 +56,12 @@ class MultimediaGallery extends Component {
     }
     render() {
         const items = this.props.items.map(item => {
-            item.thumbnail = item.original;
             if (item.type && item.type === "video") {
+                item.thumbnail = item.embedUrl + ".thumbnail.jpg";
+                item.original = item.thumbnail;
                 item.renderItem = this._renderVideo;
+            } else {
+                item.thumbnail = item.original;
             }
             return item;
         });

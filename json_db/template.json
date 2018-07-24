@@ -1,0 +1,41 @@
+{
+    "title": "",
+    "category": "",
+    "location": "",
+    "thumbnail": "/img/手工艺/湟源陈醋/陈醋.jpg",
+    "keywords": ["湟源", "陈醋", "醋", "药", "药膳醋", "日用"],
+    "gallery": [
+        {
+            "original": "/img/手工艺/湟源陈醋/陈醋.jpg",
+            "caption": ""
+        },
+        {
+            "type": "video",
+            "embedUrl": "/img/手工艺/湟源陈醋/马营醋坊.mp4",
+            "caption": ""
+        }
+    ],
+    "contents": [
+        {
+            "type": "text",
+            "content": ""
+        },
+        {
+            "type": "image",
+            "src": "/img/手工艺/湟源陈醋/陈醋.jpg",
+            "caption": "湟源陈醋"
+        },
+        {
+            "type": "text",
+            "content": ""
+        },
+        {
+            "type": "text",
+            "content": ""
+        },
+        {
+            "type": "text",
+            "content": ""
+        }
+    ]
+}

@@ -23,10 +23,6 @@
             }
         }
         .media-body {
-            max-height: $image-size;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
             a {
                 text-decoration: none;
                 h5 {
