@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './dist/style.css';
-import {Button} from 'react-bootstrap';
+import {Button} from 'reactstrap';
+import { Icon } from 'react-icons-kit'
+import {chevronUp} from 'react-icons-kit/fa/chevronUp'
 
 class GotoTop extends React.Component {
     constructor() {
@@ -26,9 +28,9 @@ class GotoTop extends React.Component {
     render () {
         return (
             <div className="gotoTop">
-        <Button title='回到顶部' className='scroll' 
+        <Button title='????' className='scroll' 
                  onClick={ () => { this.scrollToTop(); }}>
-                  <span className='arrow-up glyphicon glyphicon-chevron-up'></span>
+                  <Icon icon={chevronUp} className="arrow-up"/>
                 </Button>
                 </div>
         );

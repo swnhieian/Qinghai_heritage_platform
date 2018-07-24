@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './dist/style.css';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Container, Row, Col} from 'reactstrap';
 import GotoTop from './GotoTop';
 
 
@@ -64,8 +64,8 @@ class Detail extends Component {
             }
         });
         return (
-       <div>
-          <Grid>
+       <div className="detail-wrapper">
+          <Container>
               <Row>
                   <Col>
                     <h1 className='detail-title'>{details.title}</h1>
@@ -77,7 +77,7 @@ class Detail extends Component {
                     </div>
                   </Col>
               </Row>
-          </Grid> 
+          </Container> 
           <GotoTop />
       </div>)
     }

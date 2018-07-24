@@ -1,24 +1,26 @@
-.detail-title {
-    text-align: center;
-}
-.detail-gallery {
-    margin: 20px auto;
-    width: 70%;
-}
-.detail-content {
-    margin: 20px auto;
-    .detail-media {
+.detail-wrapper {
+    padding: 30px;
+    .detail-title {
         text-align: center;
-        img {
-            margin: 0 auto 10px auto;
-        }
-        .detail-caption {
-            font-weight: bold;
-        }
+    }
+    .detail-gallery {
         margin: 20px auto;
+        width: 70%;
     }
-    p.detail-text {
-        text-indent: 2em;
+    .detail-content {
+        margin: 20px auto;
+        .detail-media {
+            text-align: center;
+            img {
+                margin: 0 auto 10px auto;
+            }
+            .detail-caption {
+                font-weight: bold;
+            }
+            margin: 20px auto;
+        }
+        p.detail-text {
+            text-indent: 2em;
+        }
     }
-
 }

@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import { Navbar, FormControl, FormGroup, MenuItem, Nav, NavItem } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { Container, Navbar, Form, Input, Collapse, NavbarBrand, NavLink, NavItem , NavbarToggler, Nav} from 'reactstrap';
+import {Link} from 'react-router-dom';
+
 import './dist/style.css';
 
 class TopBar extends Component {
   constructor(props) {
     super(props);
+    this.toggle = this.toggle.bind(this);
     this.state = {isOpen : false};
   }
-  handleOpen = () => {
-    this.setState({isOpen: true});
-  }
-  handleClose = () => {
-    this.setState({isOpen: false});
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
     render() {
       const resourceMenuItems = [
@@ -27,31 +28,38 @@ class TopBar extends Component {
         {name: 'h', id:'h'},
         {name: 'i', id:'i'},
       ];
-      const menus = resourceMenuItems.map((menu) =>
-        <MenuItem eventKey={menu.id} key={menu.id}>{menu.name}</MenuItem>
-      );
+      
       return (
-        <Navbar fixedTop collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link to="/">青海非物质文化遗产保护平台</Link>  
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
-            <Nav>
-              <NavItem eventKey={1} componentClass={Link} to="/" href="/">首页</NavItem>
-              <NavItem eventKey={2} componentClass={Link} to="/catalog/" href="/resources">资源库</NavItem>
-              <NavItem eventKey={3} componentClass={Link} to="/resources" href="/about">发现</NavItem>
-              <NavItem eventKey={4} componentClass={Link} to="/about" href="/about">关于</NavItem>              
-            </Nav>
-            <Navbar.Form pullRight>
-                <FormGroup>
-                  <FormControl type="text" placeholder="搜索" />
-                </FormGroup>{' '}
-            </Navbar.Form>
-          </Navbar.Collapse>
-        </Navbar>)
+      
+        <Navbar color="faded" dark expand="md" fixed="top">
+        <Container>
+        <NavbarBrand tag={Link} to="/">
+           青海非物质文化遗产保护平台
+        </NavbarBrand>
+        <NavbarToggler onClick={this.toggle} />
+        <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="mr-auto" navbar>
+            <NavItem>
+              <NavLink tag={Link} href="/" to="/">首页</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} to="/catalog">资源库</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} to="/resources">发现</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={Link} to="/about">关于</NavLink>
+            </NavItem>          
+          </Nav>  
+          <Form inline>
+            <Input type="text" name="search" id="exampleEmail" placeholder="搜索" />
+          </Form>
+        </Collapse>
+        </Container>
+        </Navbar>
+
+       )
     }
 }
 export default TopBar;

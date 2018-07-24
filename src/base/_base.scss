@@ -4,12 +4,23 @@ body {
     //font-size: 13px;
     color: $text-color;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }  
 html,body {
     height: 100%;
 }
 .no-padding {
     padding: 0 !important;
+}
+
+.page-content {
+  margin-top: $topBar-height;
+  min-height: $min-page-height;
+  padding: 0;
+}
+$sidebar-width: 260px; 
+.with-sidebar {
+    margin-left: $sidebar-width;
 }
 
 .footer {
@@ -52,9 +63,10 @@ html,body {
     position: fixed;
     right: 20px;
     bottom: 50px;
-    .scroll {
+    outline: none;
+    button.scroll {
         opacity: 0.3;
-        background-color: aqua;
+        background-color: #444;
         width: 40px;
         height: 40px;
         border-radius: 5px;
@@ -67,12 +79,9 @@ html,body {
       }
       
       .arrow-up {
-        color: white;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -9px;
-        margin-left: -5px;
+        color: #ff6464;
       }
         
   }
+
+  

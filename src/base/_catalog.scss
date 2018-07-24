@@ -1,16 +1,4 @@
-.sidenav---sidenav---_2tBP {
-    height: 100% !important;
-    min-height: $min-page-height;
-    margin-top: $topBar-height;
 
-    
-    // .metismenu-link:hover {
-    //     text-decoration: none;
-    // }
-    // .metismenu-link .active {
-    //     color: green;
-    // }
-}
 .container .container-fluid {
     height: 100%;
 }
@@ -27,3 +15,109 @@
         background: blue;
     }
 }
+.catalog-content {
+    padding: $topBar-height auto;
+    transition: all 0.3s ease;
+}
+.with-sidebar {
+    margin-left: $sidebar-width;   
+    section:nth-child(even) {
+        background-color: #f7f7f7;
+    }
+
+    section:nth-child(odd) {
+        background-color: #fff;
+    }
+    section {
+        padding: 30px
+    }
+
+}
+
+@media (max-width: 767.98px) { 
+    .with-sidebar {
+        margin-left: auto;
+    }
+ }
+.sidebar {
+    $back-color: #ff6464;
+    $fore-color: #fff;
+    $active-color: #444;
+    $width: $sidebar-width;
+    background-color: $back-color;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    width: $width;
+    nav.sidebar-body {
+      font-weight: 300;
+      ul.sidebar-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li.sidebar-item {
+          a.sidebar-link {
+            display: block;
+            padding: 1rem;
+            background-color: $back-color;
+            color: $fore-color;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            &:hover {
+              background-color: $fore-color;
+              color: $back-color;
+            }
+            &.active {
+              color: $active-color;
+              font-weight: bold;
+              border-left: 2px solid $active-color;
+
+            }
+          }
+        }
+        
+      }
+    }
+  }
+.catalog-header {
+    text-align: center;
+    // background-color: red;
+    // color: white;
+}
+  .catalog-content {
+    .heritage-card {
+        background-color: transparent;
+        padding: 30px;
+        text-align: center;
+          a.heritage-link {
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: block;
+            text-decoration: none;
+            position: relative;
+            height: 200px;
+            &::after {
+                content: "";
+                background-color: rgba(0, 0, 0, .54);
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top : 0;
+                left: 0;
+                display: block;
+                z-index: 1;
+                
+            }   
+            &:hover::after {
+                background-color: rgba(0, 0, 0, 0.1);
+            }      
+            
+            .heritage-name {
+                color: #fff;
+                margin: auto;
+                padding: 20% 0;
+            }  
+        }
+    }   
+}
+  

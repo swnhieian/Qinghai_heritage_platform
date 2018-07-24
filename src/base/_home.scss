@@ -1,9 +1,9 @@
-$carousel-height: 500px;
+$carousel-height: 600px;
 .carousel {
-    height: $carousel-height;
+    max-height: $carousel-height;
     margin-top: $topBar-height; 
     .carousel-inner {
-        .item {
+        .carousel-item {
             img {
                 height: $carousel-height;
                 min-width: 100%;
