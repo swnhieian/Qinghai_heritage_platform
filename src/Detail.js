@@ -4,6 +4,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import MultimediaGallery from "./MultimediaGallery";
 import {Container, Row, Col} from 'reactstrap';
 import GotoTop from './GotoTop';
+import {Redirect} from 'react-router-dom';
 
 
 class Detail extends Component {
@@ -40,6 +41,7 @@ class Detail extends Component {
         if (details === undefined || details === null) {
             return this.state.loaded ? (
                 <div>
+                    <Redirect to="/404" />
                   <p>No Page for {this.props.match.params.title}</p>
                   <p>Try url http://localhost:port/detail/湟源陈醋</p>
 

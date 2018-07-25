@@ -9,6 +9,7 @@ import Catalog from './Catalog';
 import Detail from './Detail';
 import Footer from './Footer';
 import SearchResults from './SearchResults';
+import Discovery from './Discovery';
 import Page404 from './404';
 
 class App extends Component {
@@ -33,6 +34,7 @@ class App extends Component {
           <Route path="/catalog" component={Catalog}></Route>          
           <Route path="/detail/:title" component={Detail}></Route>
           <Route path="/search" component={SearchResults}></Route>
+          <Route path="/discovery" component={Discovery}></Route>
           <Route component={Page404}></Route>
          </Switch>
           {/*<Route path="/about" component={About}></Route> */}

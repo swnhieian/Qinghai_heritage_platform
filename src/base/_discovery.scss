@@ -1,0 +1,43 @@
+.card {
+    display: block;
+    img {
+        height: auto;
+    }
+}
+
+.masonry-container{
+	width: 100%;
+	margin: auto;
+	margin-top: 10px;
+	p{
+		text-align: center;
+		padding: 4px;
+		font-family: monospace;
+		background: #222;
+		color: #efefef;
+	}
+}
+.masonry{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: stretch;
+	width: 100%;
+	margin: auto;
+}
+.column{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-content: stretch;
+	flex-grow: 1;
+}
+.tile{
+    margin: 4px;
+    padding: 15px;
+
+    a {
+        text-decoration: none;
+        color: #4a4a4a;
+    }
+}

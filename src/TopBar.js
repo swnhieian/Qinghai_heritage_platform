@@ -54,7 +54,7 @@ class TopBar extends Component {
               <NavLink tag={Link} to="/catalog">资源库</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} to="/resources">发现</NavLink>
+              <NavLink tag={Link} to="/discovery">发现</NavLink>
             </NavItem>
             <NavItem>
               <NavLink tag={Link} to="/about">关于</NavLink>
