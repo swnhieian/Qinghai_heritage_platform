@@ -21,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 /src/dist
+/public/img/手工艺
