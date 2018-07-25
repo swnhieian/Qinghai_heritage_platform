@@ -25,6 +25,20 @@ app.get("/api/items/:title", (req, res) => {
     });
 });
 
+app.get("/api/catalog", (req, res) => {
+    db.collection("items").aggregate([
+        {"$project": {category: 1,
+                      info: {id: "$title", name: "$title", thumbnail: "$thumbnail"}}},
+        {"$group": {_id: "$category", id: {$first: "$category"},
+                    name: {$first: "$category"}, children: {$push: "$info"}}}
+    ]).toArray().then(categories => {
+        res.json({categories: categories});
+    }).catch(error => {
+        console.log("API Server ERROR at /api/items/:title: ", error);
+        res.status(500).json({message: `API Server ERROR: ${error}`});
+    });
+});
+
 let client, db;
 MongoClient.connect(url, {useNewUrlParser: true}).then(conn => {
     client = conn;
