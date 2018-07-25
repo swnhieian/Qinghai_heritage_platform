@@ -49,20 +49,20 @@ class Detail extends Component {
             ) : (<div></div>);
         }
         
-        const content = details.contents.map((item) => {
+        const content = details.contents.map((item, idx) => {
             switch (item.type) {
             case 'text':
-                const paras = item.content.split("\\endl").map(para => (
-                    <p className='detail-text'>{para}</p>
+                const paras = item.content.split("\\endl").map((para, no) => (
+                    <p className='detail-text' key={no}>{para}</p>
                 ));
-                return (<div>{paras}</div>);
+                return (<div key={idx}>{paras}</div>);
             case 'image':
-                return (<div className='detail-media'>
+                return (<div className='detail-media' key={idx}>
                         <img src={item.src} alt={item.src}/>
                         <div className='detail-media-caption'>{item.caption}</div>
                         </div>);
             default:
-                return (<div></div>);
+                return (<div key={idx}></div>);
             }
         });
         return (

@@ -39,8 +39,8 @@ class MultimediaGallery extends Component {
                         <a onClick={this._toggleShowVideo.bind(this, item.embedUrl)}>
                         </a>
                         <iframe title="video-player"
-                                width={item.video_width || 640}
-                                height={item.video_height || 480}
+                                width={640}
+                                height={480}
                                 src={item.embedUrl}
                                 frameBorder="0" allowFullScreen/>
                       </div>

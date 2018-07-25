@@ -35,6 +35,8 @@ MongoClient.connect(url, {useNewUrlParser: true}).then(conn => {
     return collection.insert(items);
 }).then(result => {
     console.log("Result of insert: ", result.result);
+    collection.ensureIndex("title");
+    collection.ensureIndex("category");
     client.close();
 }).catch(error => {
     console.log("ERROR: ", error);

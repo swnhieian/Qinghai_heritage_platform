@@ -42,9 +42,12 @@
     }
   },
   "devDependencies": {
+    "ffprobe": "^1.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "fs": "^0.0.1-security",
     "glob": "^7.1.2",
+    "handbrake-js": "^3.0.6",
+    "node-ffprobe": "^1.2.2",
     "video-thumbnail-generator": "^1.1.3"
   }
 }
