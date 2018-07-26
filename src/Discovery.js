@@ -1,132 +1,85 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './dist/style.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './dist/style.css';
 import InfiniteScroll from 'react-infinite-scroller';
-import {Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, CardText} from 'reactstrap';
+import {Card, CardImg, CardBody, CardTitle} from 'reactstrap';
 import {Link} from 'react-router-dom';
-const masonryOptions = {
-    transitionDuration: 0
+
+const Tile = (props) => (
+    <div className="tile">
+      <Link to={"/detail/" + props.title}>
+        <Card>
+          <CardImg top width="100%" src={props.src} alt="Card image cap" />
+          <CardBody>
+            <CardTitle>{props.title}</CardTitle>
+          </CardBody>
+        </Card>
+      </Link>
+    </div>
+);
+
+function createUniqueArray(inputArr, sorterKey) {
+    var dict = {};
+    var uniqueArr = [];
+    for (let item of inputArr)
+        dict[item[sorterKey]] = item;
+    for (let key in dict)
+        uniqueArr.push(dict[key]);
+    return uniqueArr;
 };
-const imagesLoadedOptions = {
-    background: '.masonry-bg'
-};
-const createUniqueArray = function (inputArray, sorter) {
-    var arrResult = {};
-    var nonDuplicatedArray = [];
-    var i, n;
 
-    for (i = 0, n = inputArray.length; i < n; i++) {
-        var item = inputArray[i];
-
-        if (sorter) {
-            arrResult[item[sorter]] = item;
-        } else {
-            arrResult[item] = item;
-        }
-    }
-
-    i = 0;
-
-    for (var item in arrResult) {
-        nonDuplicatedArray[i++] = arrResult[item];
-    }
-
-    return nonDuplicatedArray;
-};
 class Discovery extends Component {
-  constructor(props) {
-    super(props);
-    this.perPage = 10;
-    this.state = {
-        page: 0,
-        images: [],
-        hasMore: true
-    };  
-    this.fakeimages = [
-        {guid: '0', src: '/img/example.jpg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '1', src: 'https://assets.entrepreneur.com/content/3x2/2000/20180723151919-GettyImages-707451763.jpeg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '2', src: '/img/example.jpg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '3', src: '/img/example2.jpg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '4', src: '/img/example.jpg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '5', src: '/img/example.jpg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '6', src: 'https://assets.entrepreneur.com/content/3x2/2000/20180723151919-GettyImages-707451763.jpeg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '7', src: '/img/example2.jpg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '8', src: '/img/example2.jpg', id: '湟源陈醋', name:'湟源陈醋'},
-        {guid: '9', src: 'https://assets.entrepreneur.com/content/3x2/2000/20180723151919-GettyImages-707451763.jpeg', id: '湟源陈醋', name:'湟源陈醋'}
-    ];
-    this.fetchNextImages = this.fetchNextImages.bind(this);
-    this.includeLoadedImages = this.includeLoadedImages.bind(this);
-    this.includeLoadedImages(0, this.fakeimages);
-  }
-  fetchNextImages(page, perPage, callback) {
-    /*this.props.api.entries.get({
-        page: page,
-        perPage: perPage,
-        category: this.props.category
-    }, callback); */
-    callback(null, this.fakeimages.map((item)=>{
-        let ret = {...item};
-        ret.guid = page+ "-" + item.guid;
-        return ret;
-    }));
-  }
-  includeLoadedImages(page, images) {
-      console.log('include loaded images');
-      console.log(images);
-    this.setState({
-        page: page + 1,
-        images: createUniqueArray(this.state.images.concat(images), 'guid'),
-        hasMore: (images.length == this.perPage && page <= 20)
-    });
-  }
-  loadMoreImages(page) {    
-    this.fetchNextImages(page, this.perPage, (function (err, images) {
-        if (err) return console.log(err);
-        this.includeLoadedImages(page, images);
-    }).bind(this));
-  }
-  getImagesToRender() {
-    return this.state.images.map((image)=> {
+    constructor(props) {
+        super(props);
+        this.perPage = 15;
+        this.state = {
+            images: [],
+            hasMore: true
+        };
+    }
+
+    fetchNextImages(page) {
+        console.log("fetchNextImages", page);
+        fetch(`/api/images?page=${page}&perPage=${this.perPage}`).then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    this.setState({
+                        images: createUniqueArray(
+                            this.state.images.concat(data.images), 'src'),
+                        hasMore: (data.images.length === this.perPage && page <= 20)
+                    });
+                });
+            } else {
+                response.json().then(error => {
+                    console.log("Failed to get /api/images: " + error.message);
+                });
+            }
+        }).catch(error => {
+            console.log("Failed to get /api/images: ", error);
+        });;
+    }
+
+    render() {
+        const images = this.state.images.map(image => (
+            <Tile src={image.src} title={image.title} key={image.src}/>
+        ));
         return (
-          <Tile item={image} />
-    
-        );
-    });
-  }
-  getLoaderElement() {
-    return null;
-  }
-  render() {
-    return (
-            
-                       <InfiniteScroll 
-                            ref='masonryContainer'
-                            loader={this.getLoaderElement()}
-                            pageStart={0}
-                            loadMore={this.loadMoreImages.bind(this)}
+            <InfiniteScroll pageStart={0}
+                            loadMore={this.fetchNextImages.bind(this)}
                             hasMore={this.state.hasMore}
-                            threshold={1000}
-                        >
-                        {/* <Container>
-                <Row className="d-flex align-items-start flex-wrap">
-                            {this.getImagesToRender()}
-                            </Row>
-            </Container> */}
-
-
-            <div className="container">
+                            threshold={500}>
+              <div className="container">
 				<div className="masonry-container">
-					
-					<Masonry brakePoints={[250, 500, 750]}>
-                    {this.getImagesToRender()}
-					</Masonry>
+				  <Masonry brakePoints={[250, 500, 750]}>
+                    {images}
+				  </Masonry>
 				</div>
-			</div>
-                        </InfiniteScroll>
-                
-    );
-  }
+			  </div>
+            </InfiniteScroll>
+        );
+    }
 }
+
 class Masonry extends React.Component{
 	constructor(props){
 		super(props);
@@ -135,7 +88,7 @@ class Masonry extends React.Component{
 	}
 	componentDidMount(){
 		this.onResize();
-		window.addEventListener('resize', this.onResize)	
+		window.addEventListener('resize', this.onResize);
 	}
 	
 	getColumns(w){
@@ -145,11 +98,11 @@ class Masonry extends React.Component{
 	}
 	
 	onResize(){
+        console.log("onResize");
 		const columns = this.getColumns(this.refs.Masonry.offsetWidth);
 		if(columns !== this.state.columns){
 			this.setState({columns: columns});	
 		}
-		
 	}
 	
 	mapChildren(){
@@ -165,35 +118,21 @@ class Masonry extends React.Component{
 	}
 	
 	render(){
+        console.log("render");
 		return (
 			<div className="masonry" ref="Masonry">
-				{this.mapChildren().map((col, ci) => {
-					return (
-						<div className="column" key={ci} >
-							{col.map((child, i) => {
-								return <div key={i} >{child}</div>
-							})}
-						</div>
-					)
-				})}
+			  {this.mapChildren().map((col, ci) => {
+				  return (
+					  <div className="column" key={ci} >
+						{col.map((child, i) => {
+							return (<div key={i}>{child}</div>);
+						})}
+					  </div>
+				  );
+			  })}
 			</div>
-		)
+		);
 	}
 }
-const Tile = ({item}) => {
-    return (
-      <div className="tile">
-        <Link to={"/detail/" + item.id}>
-          <Card>
-          <CardImg top width="100%" src={item.src} alt="Card image cap" />
-            <CardBody>
-            <CardTitle>{item.name}</CardTitle>
-            {/* <CardSubtitle>Card subtitle</CardSubtitle>
-            <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText> */}
-            </CardBody>
-          </Card>
-        </Link>
-      </div>
-    );
-  };
+
 export default Discovery;

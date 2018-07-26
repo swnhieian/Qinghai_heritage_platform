@@ -18,12 +18,9 @@ class Detail extends Component {
     }
 
     loadData() {
-        console.log("loadData");
         fetch("/api/items/" + this.props.match.params.title).then(response => {
             if (response.ok) {
-                console.log("Got Response:", response);
                 response.json().then(data => {
-                    console.log("Got data:", data);
                     this.setState({details: data.item, loaded: true});
                 });
             } else {
