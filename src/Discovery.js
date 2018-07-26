@@ -70,7 +70,7 @@ class Discovery extends Component {
                             threshold={500}>
               <div className="container">
 				<div className="masonry-container">
-				  <Masonry brakePoints={[250, 500, 750]}>
+				  <Masonry brakePoints={[350, 500, 750]}>
                     {images}
 				  </Masonry>
 				</div>
@@ -83,7 +83,7 @@ class Discovery extends Component {
 class Masonry extends React.Component{
 	constructor(props){
 		super(props);
-		this.state = {columns: 1};
+		this.state = {columns: 4};
 		this.onResize = this.onResize.bind(this);
 	}
 	componentDidMount(){
@@ -98,8 +98,7 @@ class Masonry extends React.Component{
 	}
 	
 	onResize(){
-        console.log("onResize");
-		const columns = this.getColumns(this.refs.Masonry.offsetWidth);
+        const columns = this.refs.Masonry?this.getColumns(this.refs.Masonry.offsetWidth):this.state.columns;
 		if(columns !== this.state.columns){
 			this.setState({columns: columns});	
 		}
