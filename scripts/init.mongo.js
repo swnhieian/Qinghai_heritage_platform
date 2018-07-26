@@ -35,8 +35,12 @@ MongoClient.connect(url, {useNewUrlParser: true}).then(conn => {
     return collection.insert(items);
 }).then(result => {
     console.log("Result of insert: ", result.result);
-    collection.ensureIndex("title");
-    collection.ensureIndex("category");
+    return collection.dropIndexes();
+}).then(result => {
+    console.log("Result of drop indexes: ", result);
+    collection.createIndex("title");
+    collection.createIndex({title: "text", "category": "text", keywords: "text"});
+    console.log("Created Index for title & textsearch");
     client.close();
 }).catch(error => {
     console.log("ERROR: ", error);

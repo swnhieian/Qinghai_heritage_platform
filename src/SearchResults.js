@@ -1,100 +1,112 @@
 import React, { Component } from 'react';
-import './dist/style.css'
+import './dist/style.css';
 import {Container, Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 import {Link} from 'react-router-dom';
-import queryString from 'query-string'
+import queryString from 'query-string';
+
+const ResultItem = (props) => (
+    <div className="search-result media" key={props.item.title}>
+      <Link to={'/detail/'+props.item.title}>
+        <img src={props.item.thumbnail} alt={props.item.thumbnail}
+             className="search-result-img align-self-center" />
+      </Link>
+      <div className="media-body">
+        <Link to={'/detail/'+props.item.title}>
+          <h5>{props.item.name}</h5>
+        </Link>
+        {
+            (props.item.contents[0].content.length>150)
+                ? (props.item.contents[0].content.substring(0, 147)+'...')
+                : props.item.contents[0].content
+        }
+      </div>
+    </div>
+);
+
+function ResultList(props) {
+    const resultItems = props.items.map(item => (
+        <ResultItem item={item} key={item.title}/>
+    ));
+    return (
+        <div className="search-result-list">
+          {resultItems}
+        </div>
+    );
+}
+
+function ResultPagination(props) {
+    const pages = [...Array(props.totalPage)].map((x, i) => (
+        <PaginationItem active={((i+1) === props.currentPage)} key={i+1}>
+          <PaginationLink href={props.makeUrl(i+1)}>
+            {i+1}
+          </PaginationLink>
+        </PaginationItem>
+    ));
+    return (
+        <div className="search-result-pagination">
+          <Pagination listClassName="justify-content-center">
+            <PaginationItem disabled={props.currentPage === 1}>
+              <PaginationLink previous href={props.makeUrl(1)} />
+            </PaginationItem>
+            {pages}
+            <PaginationItem disabled={props.currentPage === props.totalPage}>
+              <PaginationLink next href={props.makeUrl(props.totalPage)} />
+            </PaginationItem>
+          </Pagination>
+        </div>
+    );
+}
+
 class SearchResults extends Component {
     constructor(props) {
         super(props);
+        this.numPerPage = 10;
         let paras = queryString.parse(props.location.search);
-        this.keyword = paras.word;
-        this.currentPage = paras.page || 1;
-        this.reaults = [];
+        this.state = {
+            keyword: paras.word, currentPage: paras.page || 1,
+            results: [],
+            totalNum: 0, totalPage: 1
+        };
     }
 
-    getData() {
-        console.log(this.keyword);
-        this.totalNum = 50;
-        this.totalPage = this.totalNum / 10;
-        this.results = [
-            {
-                id: '河湟皮影',
-                name: '河湟皮影',
-                thumbnail: '/img/example.jpg',
-                content: '皮影戏又名“灯影戏”、“皮影子”，是中国民间融戏剧、文学、音乐、美术为一体的一种古老而奇特的戏曲艺术。一块白布就是舞台，尺把长的小人在幕后被演员操作得得心应手，当灯光穿过皮影，白布另一侧便显现出色彩明艳、栩栩如生的人物、花鸟、楼宇等各种动态人物和静态事物，人物动作娴熟、花鸟形象逼真,素有“银灯映照千员将，一箱容下百万兵”的美称。'
-            },
-            {
-                id: '河湟皮影',
-                name: '河湟皮影',
-                thumbnail: '/img/example.jpg',
-                content: '影戏又名“灯影戏影戏又名“灯影戏影戏又名“灯影戏影戏又名“灯影戏影戏又名“灯影戏影戏又名“灯影戏影戏又名“灯影戏影戏又名“灯影戏皮影戏又名“灯影戏”、“皮影子”，是中国民间融戏剧、文学、音乐、美术为一体的一种古老而奇特的戏曲艺术。一块白布就是舞台，尺把长的小人在幕后被演员操作得得心应手，当灯光穿过皮影，白布另一侧便显现出色彩明艳、栩栩如生的人物、花鸟、楼宇等各种动态人物和静态事物，人物动作娴熟、花鸟形象逼真,素有“银灯映照千员将，一箱容下百万兵”的美称。'
-            },
-            {
-                id: '河湟皮影',
-                name: '河湟皮影',
-                thumbnail: '/img/example.jpg',
-                content: '皮影戏又名“灯影戏”、“皮影子”，是中国民间融戏剧、文学、音乐、美术为一体的一种古老而奇特的戏曲艺术。一块白布就是舞台，尺把长的小人在幕后被演员操作得得心应手，当灯光穿过皮影，白布另一侧便显现出色彩明艳、栩栩如生的人物、花鸟、楼宇等各种动态人物和静态事物，人物动作娴熟、花鸟形象逼真,素有“银灯映照千员将，一箱容下百万兵”的美称。'
-            },
-            {
-                id: '河湟皮影',
-                name: '河湟皮影',
-                thumbnail: '/img/example.jpg',
-                content: '皮影戏又名“灯影戏”、“皮影子”，是中国民间融戏剧、文学、音乐、美术为一体的一种古老而奇特的戏曲艺术。一块白布就是舞台，尺把长的小人在幕后被演员操作得得心应手，当灯光穿过皮影，白布另一侧便显现出色彩明艳、栩栩如生的人物、花鸟、楼宇等各种动态人物和静态事物，人物动作娴熟、花鸟形象逼真,素有“银灯映照千员将，一箱容下百万兵”的美称。'
+    componentDidMount() {
+        this.loadData();
+    }
+
+    loadData() {
+        fetch("/api/textsearch/" + this.state.keyword).then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    console.log(data);
+                    this.setState({
+                        results: data.items,
+                        totalNum: data.items.length, totalPage: Math.ceil(data.items.length / this.numPerPage)
+                    });
+                });
+            } else {
+                response.json().then(error => {
+                    console.log("Failed to get /api/textsearch: " + error.message);
+                });
+
             }
- 
-        ]
-    }
-  makeUrl(page) {
-      return '/search?word=' + this.keyword + '&page=' + page;
-  }
-  render() {
-        this.getData();
-        this.result = this.results.map((item) => {
-            return (
-                <div className="search-result media" key={item.id}>
-                    <Link to={'/detail/'+item.id}>
-                        <img src={item.thumbnail} className="search-result-img align-self-center" />
-                    </Link>
-                    <div className="media-body">
-                        <Link to={'/detail/'+item.id}>
-                            <h5>{item.name}</h5>
-                        </Link>
-                      {(item.content.length>150)?(item.content.substring(0, 147)+'...'):item.content}
-                    </div>
-                </div>
-            )
+        }).catch(error => {
+            console.log("Failed to get /api/textsearch: ", error);
         });
-        let pages = [...Array(this.totalPage)].map((x,i)=> {
-            return (
-                <PaginationItem active={((i+1) == this.currentPage)}>
-                  <PaginationLink href={this.makeUrl(i+1)}>
-                    {i+1}
-                  </PaginationLink>
-                </PaginationItem>
+    }
+    
+  makeUrl(page) {
+      return '/search?word=' + this.state.keyword + '&page=' + page;
+  }
 
-            )
-        })
-        console.log(pages);
-        console.log(this.currentPage);
+  render() {
         return (
             <Container>
               <div className="search-overview">
-                共找到关于<b>{this.keyword}</b>的结果{this.totalNum}条，共{this.totalPage}页
+                共找到关于<b>{this.state.keyword}</b>的结果{this.state.totalNum}条，共{this.state.totalPage}页
               </div>
-              <div className="search-result-list">
-                {this.result}
-              </div>
-              <div className="search-result-pagination">
-              <Pagination listClassName="justify-content-center">
-                <PaginationItem disabled={this.currentPage == 1}>
-                <PaginationLink previous href={this.makeUrl(1)} />
-                </PaginationItem>
-                {pages}
-                <PaginationItem disabled={this.currentPage == this.totalPage}>
-                <PaginationLink next href={this.makeUrl(this.totalPage)} />
-                </PaginationItem>
-            </Pagination>
-              </div>
+              <ResultList items={this.state.results}/>
+              <ResultPagination totalPage={this.state.totalPage} currentPage={this.state.currentPage}
+                                makeUrl={this.makeUrl.bind(this)}/>
             </Container>
         );
   }

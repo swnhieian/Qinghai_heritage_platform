@@ -6,17 +6,10 @@ class Page404 extends Component {
     super(props);
     this.state = {isOpen : false};
   }
-  componentDidMount () {
-    const script = document.createElement("script");
-    script.src = "//qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js";
-    script.setAttribute('homePageUrl', "http://127.0.0.1:3000/");
-    script.setAttribute('homePageName', "返回青海非物质文化遗产保护平台");
-    script.async = true;
-    document.body.appendChild(script);
-  }
   render() {
     return (
         <div>
+          <h1>404</h1>
         </div>
     );
   }

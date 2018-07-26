@@ -25,6 +25,7 @@ app.get("/api/items/:title", (req, res) => {
     });
 });
 
+//https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/
 app.get("/api/catalog", (req, res) => {
     db.collection("items").aggregate([
         {"$project": {category: 1,
@@ -35,6 +36,24 @@ app.get("/api/catalog", (req, res) => {
         res.json({categories: categories});
     }).catch(error => {
         console.log("API Server ERROR at /api/items/:title: ", error);
+        res.status(500).json({message: `API Server ERROR: ${error}`});
+    });
+});
+
+//https://docs.mongodb.com/manual/text-search/
+app.get("/api/textsearch/:keyword", (req, res) => {
+    const filter = {$text: {$search: req.params.keyword}};
+    const sort = {score: {$meta: "textScore"}};
+    const project = {
+        score: {$meta: "textScore"},
+        gallery: 0, keywords: 0, location: 0, _id: 0,
+    };
+    db.collection("items").find(filter)
+        .project(project).sort(sort)
+        .toArray().then(items => {
+            res.json({items: items});
+    }).catch(error => {
+        console.log("API Server ERROR at /api/textsearch/:keyword: ", error);
         res.status(500).json({message: `API Server ERROR: ${error}`});
     });
 });
