@@ -58,6 +58,24 @@ app.get("/api/textsearch/:keyword", (req, res) => {
     });
 });
 
+app.get("/api/images", (req, res) => {
+    let page = req.query.page || 1,
+        perPage = req.query.perPage || 10;
+    db.collection("items").aggregate([
+        {$project: {gallery: 1, title: 1, _id: 0}},
+        {$unwind: "$gallery"},
+        {$project: {src: "$gallery.original", title: 1}},
+        {$match: {src: {$exists: true}}},
+        {$skip: parseInt((page - 1) * perPage)},
+        {$limit: parseInt(perPage)},
+    ]).toArray().then(images => {
+        res.json({page: page, perPage: perPage, images: images});
+    }).catch(error => {
+        console.log("API Server ERROR at /api/images: ", error);
+        res.status(500).json({message: `API Server ERROR: ${error}`});
+    });
+});
+
 let client, db;
 MongoClient.connect(url, {useNewUrlParser: true}).then(conn => {
     client = conn;
