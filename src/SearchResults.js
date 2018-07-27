@@ -12,7 +12,7 @@ const ResultItem = (props) => (
       </Link>
       <div className="media-body">
         <Link to={'/detail/'+props.item.title}>
-          <h5>{props.item.name}</h5>
+          <h5>{props.item.title}</h5>
         </Link>
         {
             (props.item.contents[0].content.length>150)
