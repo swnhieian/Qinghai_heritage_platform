@@ -33,6 +33,7 @@ var opt = {
 
 
 class Location extends Component {
+
     onChartClick(params, b) {
         if (params.componentType === 'series') {
             this.props.history.push('/detail/' + params.data[3]);
@@ -50,30 +51,40 @@ class Location extends Component {
                     .then((data) => {
                         echarts.registerMap(params.name, data);
                         this.resetOption(this.state.self, this.getOption(), params.name);
-                    }, (e) => { console.log(e) });
-
-                //console.log(json);
-                //     fetch('/public/map/'+url+'.json').then(function(response){
-                //          console.log(response.json());
-                // //         curGeoJson = response;
-                // //         echarts.registerMap(params.name, response);
-                // //         
-                //     }, (err)=>{
-                //         console.log(err);
-                //     });
+                    }, (e) => { console.log(e); });
             }
         }
     }
-    loadData() {
-        opt.data = [
-            //lng                  lat                  name      id      city
-            [101.16317752227995, 36.636354795068264, '湟源陈醋', '湟源陈醋', '西宁市'],
-            [101.46570700813312, 36.9093545903124, '陈家滩木雕', '陈家滩木雕', '西宁市']
-        ];
+
+    componentDidMount() {
+        this.loadData();
     }
+
+    loadData() {
+        fetch("/api/locations").then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    opt.data = data.locations.map(loc => {
+                        return [
+                            loc.location[0], loc.location[1],
+                            loc.title, loc.title, loc.city
+                        ];
+                    });
+                    this.getOption().series[0].data = opt.data;
+                    this.echarts_react.getEchartsInstance().setOption(this.getOption());
+                });
+            } else {
+                response.json().then(error => {
+                    console.log("Failed to get /api/locations: " + error.message);
+                });
+            }
+        }).catch(error => {
+            console.log("Failed to get /api/items: ", error);
+        });
+    }
+
     resetOption(i, o, n) {
         var breadcrumb = this.createBreadcrumb(n, this);
-
         var j = this.name.indexOf(n);
         var l = o.graphic.length;
         if (j < 0) {
@@ -81,8 +92,8 @@ class Location extends Component {
             o.graphic[0].children[0].shape.x2 = 80 + n.length * 20;
             o.graphic[0].children[1].shape.x2 = 80 + n.length * 20;
             if (o.graphic.length > 2) {
-                o.series[0].data = opt.data.filter(x => (n === '青海' ? true : (x[4] === n)));
-
+                o.series[0].data = opt.data.filter(x => (
+                    n === '青海' ? true : (x[4] === n)));
             };
             this.name.push(n);
             this.idx++;
@@ -93,12 +104,12 @@ class Location extends Component {
                 o.graphic[0].children[1].shape.x2 = 60;
                 o.series[0].data = opt.data;//this.handleEvents.initSeriesData(opt.data);
             };
-            o.series[0].data = opt.data.filter(x => (n === '青海' ? true : (x[4] === n)));
+            o.series[0].data = opt.data.filter(x => (
+                n === '青海' ? true : (x[4] === n)));
             this.name.splice(j + 1, l);
             this.idx = j;
             this.pos.leftCur -= this.pos.leftPlus * (l - j - 1);
         };
-
         o.geo.map = n;
         o.geo.zoom = 0.4;
         i.clear();
@@ -106,6 +117,7 @@ class Location extends Component {
         this.zoomAnimation();
         opt.callback(n, o, i);
     }
+
     createBreadcrumb(name, _self) {
         var breadcrumb = {
             type: 'group',
@@ -144,7 +156,6 @@ class Location extends Component {
                 }
             }]
         };
-
         _self.pos.leftCur += _self.pos.leftPlus;
         return breadcrumb;
     }
@@ -168,6 +179,7 @@ class Location extends Component {
             zoom(0.2);
         });
     }
+
     constructor(props) {
         super(props);
         //const url = 'http://api.map.baidu.com/geocoder/v2/?output=json&ak=GLQND1fp5f5VGoGdWuvyFsfoE9rGfPQI&address=';
@@ -198,8 +210,8 @@ class Location extends Component {
             lineColor: 'rgba(147, 235, 248, .8)'
         };
     }
-    getOption = () => {
-        this.loadData();
+
+    getOption() {
         if (this.option == null) {
             var _self = this;
             this.option = {
@@ -384,7 +396,6 @@ class Location extends Component {
                         data: opt.data,
                     }
                 ],
-
             };
         }
         return this.option;

@@ -58,6 +58,17 @@ app.get("/api/catalog_groups", (req, res) => {
     });
 });
 
+app.get("/api/locations", (req, res) => {
+    db.collection("items").find().project({
+        title: 1, city: 1, location: 1, _id: 0,
+    }).toArray().then(locations => {
+        res.json({locations: locations});
+    }).catch(error => {
+        console.log("API Server ERROR at /api/items/:title: ", error);
+        res.status(500).json({message: `API Server ERROR: ${error}`});
+    });
+});
+
 //https://docs.mongodb.com/manual/text-search/
 app.get("/api/textsearch/:keyword", (req, res) => {
     const filter = {$text: {$search: req.params.keyword}};
