@@ -1,7 +1,8 @@
 {
     "title": "陈家滩木雕",
     "category": "手工艺",
-    "location": "",
+    "location": [101.46570700813312,36.9093545903124],
+    "city": "西宁市",
     "thumbnail": "/img/手工艺/陈家滩木雕/P71128-111809.jpg",
     "keywords": ["陈家滩", "木雕"],
     "gallery": [

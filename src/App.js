@@ -11,6 +11,7 @@ import Footer from './Footer';
 import SearchResults from './SearchResults';
 import Discovery from './Discovery';
 import Page404 from './404';
+import Location from './Location';
 
 class App extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class App extends Component {
           <Route path="/detail/:title" component={Detail}></Route>
           <Route path="/search" component={SearchResults}></Route>
           <Route path="/discovery" component={Discovery}></Route>
+          <Route path="/location" component={Location}></Route>
           <Route path="/about" component={About}></Route>
           <Route component={Page404}></Route>
          </Switch>

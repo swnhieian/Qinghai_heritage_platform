@@ -28,7 +28,7 @@ class About extends Component {
     return (
 		<Container className="stl-viewer-container">
 		<STLViewer 
-		  url='/buddha.stl'
+		  url='/关公.stl'
 		  className="stl-viewer"
 		  rotate={this.state.rotate}
 		  restart={this.state.restart}  //trick for rerender the whole component
