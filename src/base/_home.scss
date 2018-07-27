@@ -1,4 +1,4 @@
-$carousel-height: 600px;
+$carousel-height: 50vh;
 .carousel {
     max-height: $carousel-height;
     margin-top: $topBar-height; 
@@ -51,4 +51,55 @@ background: none;
 }
 .carousel-control {
 width: 6%;
+}
+.catalogs {
+    $padding: 30px;
+    min-height: 40vh;
+    margin: $padding;
+    .col {
+        overflow: hidden;
+        margin: 20px 0px;
+        //max-height: $card-height;
+
+        a.catalog-card {
+            text-align: center;
+            overflow: hidden;
+            display: block;
+            position: relative;
+            height: auto;
+            text-decoration: none;
+            font-weight: bold;
+            color: #4f4f4f;
+            //max-height: $card-height
+            img {
+                object-fit: cover; 
+                width: 100%;
+                height: auto;
+            }
+            
+            .catalog-name {
+                position: absolute;
+                text-align:center;
+                font-size: 30px;
+                width: 100%;
+                height: 100%;
+                top: -220px;
+                padding: 50px;
+                left: 0px;
+                background-color: rgba(255,255, 255,0.5);
+                transition:all .8s;           
+            }
+            &:hover {
+                .catalog-name {
+                    top: 0px;
+                }
+            }
+        }
+    }
+}
+.tangka {
+    background-image: url('/img/tangka.jpg');
+    background-attachment: fixed;
+    height: 100vh;
+    background-position: center;
 }

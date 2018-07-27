@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import {UncontrolledCarousel, Carousel, CarouselItem, CarouselCaption, CarouselIndicators, CarouselControl, Row, Col, Container} from 'reactstrap';
+import {Carousel, CarouselItem, CarouselCaption, CarouselIndicators, CarouselControl, Row, Col, Container} from 'reactstrap';
 import './dist/style.css';
+import {Link } from 'react-router-dom';
+
 const items = [
   {
     src: '/img/1.jpg',
@@ -55,10 +57,20 @@ class Home extends Component {
       if (this.animating) return;
       this.setState({ activeIndex: newIndex });
     }
+    createCard(item, i) {
+      return (
+        <Col key={i}>
+          <Link to="/catalog" className="catalog-card">
+            <img src='/img/example.jpg' className="rounded"/>
+            <div class="catalog-name d-flex align-items-center justify-content-around"> <span className="d-flex">{item}</span> </div>
+          </Link>
+        </Col>
+      )
+    }
     render() {
       let catalog = ['竞技', '美术', '民俗', '曲艺', '手工艺', '文学', '舞蹈', '戏剧', '医药', '音乐'];
-      let c1 = catalog.map((item, i)=>(i<5?(<Col key={i}>{item}</Col>):''));
-      let c2 = catalog.map((item, i)=>(i>4?(<Col key={i}>{item}</Col>):''));
+      let c1 = catalog.map((item, i)=>(i<5?(this.createCard(item, i)):''));
+      let c2 = catalog.map((item, i)=>(i>4?(this.createCard(item, i)):''));
       let catalogs = catalog.map((item) => (<div key={item}>{item}</div>));
       
       const slides = items.map((item) => {
@@ -82,30 +94,7 @@ class Home extends Component {
         <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
         <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
       </Carousel>
-        {/* <Carousel className="carousel carousel-fade">
-          <Carousel.Item>
-            <img width={900} height={500} alt="900x500" src="img/1.jpg" />
-            <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img width={900} height={500} alt="900x500" src="img/2.jpg" />
-            <Carousel.Caption>
-              <h3>Second slide label</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <img width={900} height={500} alt="900x500" src="img/3.jpg" />
-            <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        </Carousel> */}
-
+      <section className="catalogs">
         <Container>
           <Row>
             {c1}
@@ -114,6 +103,10 @@ class Home extends Component {
             {c2}
           </Row>
         </Container>
+      </section>
+      <section className="tangka">
+      
+      </section>
 
         <div className="carousel container">
           <Row>
