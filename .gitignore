@@ -22,3 +22,4 @@ yarn-error.log*
 
 /src/dist
 /public/img/手工艺
+/public/*.stl
