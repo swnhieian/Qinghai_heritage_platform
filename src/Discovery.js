@@ -39,7 +39,6 @@ class Discovery extends Component {
     }
 
     fetchNextImages(page) {
-        console.log("fetchNextImages", page);
         fetch(`/api/images?page=${page}&perPage=${this.perPage}`).then(response => {
             if (response.ok) {
                 response.json().then(data => {
@@ -117,7 +116,6 @@ class Masonry extends React.Component{
 	}
 	
 	render(){
-        console.log("render");
 		return (
 			<div className="masonry" ref="Masonry">
 			  {this.mapChildren().map((col, ci) => {

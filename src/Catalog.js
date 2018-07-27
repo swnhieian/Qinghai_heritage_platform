@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import ReactDom from 'react-dom';
 
-import { BrowserRouter as Router , Link, Route} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'reactstrap';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -78,11 +77,9 @@ class Catalog extends Component {
     }
 
     loadData() {
-        console.log("loadData");
-        fetch("/api/catalog").then(response => {
+        fetch("/api/catalog_groups").then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log("Got data:", data);
                     this.setState({sidebarData: data.categories});
                 });
             } else {

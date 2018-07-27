@@ -15,6 +15,24 @@ app.get("/api/items", (req, res) => {
     });
 });
 
+app.get("/api/catalogs", (req, res) => {
+    db.collection("catalogs").find().toArray().then(catalogs => {
+        res.json({catalogs: catalogs});
+    }).catch(error => {
+        console.log("API Server ERROR at /api/catalogs: ", error);
+        res.status(500).json({message: `API Server ERROR: ${error}`});
+    });
+});
+
+app.get("/api/configs", (req, res) => {
+    db.collection("configs").find().limit(1).next().then(configs => {
+        res.json({configs: configs});
+    }).catch(error => {
+        console.log("API Server ERROR at /api/configs: ", error);
+        res.status(500).json({message: `API Server ERROR: ${error}`});
+    });
+});
+
 app.get("/api/items/:title", (req, res) => {
     const filter = {title: req.params.title};
     db.collection("items").find(filter).limit(1).next().then(item => {
@@ -26,7 +44,7 @@ app.get("/api/items/:title", (req, res) => {
 });
 
 //https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline/
-app.get("/api/catalog", (req, res) => {
+app.get("/api/catalog_groups", (req, res) => {
     db.collection("items").aggregate([
         {"$project": {category: 1,
                       info: {id: "$title", name: "$title", thumbnail: "$thumbnail"}}},

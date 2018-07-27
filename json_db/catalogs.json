@@ -1,0 +1,42 @@
+[
+    {
+        "category": "竞技",
+        "thumbnail": "/img/竞技/竞技.jpg"
+    },
+    {
+        "category": "民俗",
+        "thumbnail": "/img/民俗/民俗.jpg"
+    },
+    {
+        "category": "曲艺",
+        "thumbnail": "/img/曲艺/曲艺.jpg"
+    },
+    {
+        "category": "手工艺",
+        "thumbnail": "/img/手工艺/手工艺.jpg"
+    },
+    {
+        "category": "文学",
+        "thumbnail": "/img/文学/文学.jpg"
+    },
+    {
+        "category": "舞蹈",
+        "thumbnail": "/img/舞蹈/舞蹈.jpg"
+    },
+    {
+        "category": "戏剧",
+        "thumbnail": "/img/戏剧/戏剧.jpg"
+    },
+    {
+        "category": "医药",
+        "thumbnail": "/img/医药/医药.jpg"
+    },
+    {
+        "category": "音乐",
+        "thumbnail": "/img/音乐/音乐.jpg"
+    },
+    {
+        "category": "美术",
+        "thumbnail": "/img/美术/美术.jpg"
+    }
+]

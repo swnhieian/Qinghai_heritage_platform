@@ -9,9 +9,9 @@ const path = require("path");
 const glob = require("glob");
 const fs = require("fs");
 
-let pattern = path.join(__dirname, "..", "json_db", "*", "*.json");
+let items_pattern = path.join(__dirname, "..", "json_db", "*", "*.json");
 let items;
-glob(pattern, (error, files) => {
+glob(items_pattern, (error, files) => {
     if (error) {
         console.log("ERROR: ", error);
         process.exit(-1);
@@ -19,28 +19,86 @@ glob(pattern, (error, files) => {
     items = files.map(filepath => {
         let rawjson = fs.readFileSync(filepath);
         let item = JSON.parse(rawjson);
-        console.log(filepath);
+        console.log("Read DB-item: " + filepath);
         return item;
     });
 });
 
-let client, db, collection;
+let catalogs_jsonpath = path.join(__dirname, "..", "json_db", "catalogs.json");
+let catalogs = JSON.parse(fs.readFileSync(catalogs_jsonpath));
+console.log("Read DB-catalogs: " + catalogs_jsonpath);
+
+let configs_jsonpath = path.join(__dirname, "..", "json_db", "configs.json");
+let configs = JSON.parse(fs.readFileSync(configs_jsonpath));
+console.log("Read DB-configs: " + configs_jsonpath);
+
+
+let client, db, coll_items, coll_catalogs, coll_configs;
+
+function init_items_collection() {
+    console.log("Start init item collection");
+    return coll_items.remove({}).then(result => {
+        console.log("\tClean: ", result.result);
+        return coll_items.insert(items);
+    }).then(result => {
+        console.log("\tInsert: ", result.result);
+        return coll_items.dropIndexes();
+    }).then(result => {
+        console.log("\tDrop indexes: ", result);
+        return coll_items.createIndex("title");
+    }).then(result => {
+        console.log("\tCreate title indexes: ", result);
+        return coll_items.createIndex({
+            title: "text", "category": "text", keywords: "text"});
+    }).then(result => {
+        console.log("\tCreate text indexes: ", result);
+        return {result: "Successful init item collection"};
+    }).catch(error => {
+        console.log("ERROR: ", error);
+    });
+}
+
+function init_catalogs_collection() {
+    console.log("Start init catalogs collection");
+    return coll_catalogs.remove({}).then(result => {
+        console.log("\tClean: ", result.result);
+        return coll_catalogs.insert(catalogs);
+    }).then(result => {
+        console.log("\tInsert: ", result.result);
+        return {result: "Successful init catalogs collection"};
+    }).catch(error => {
+        console.log("ERROR: ", error);
+    });
+}
+
+function init_configs_collection() {
+    console.log("Start init configs collection");
+    return coll_configs.remove({}).then(result => {
+        console.log("\tClean: ", result.result);
+        return coll_configs.insert(configs);
+    }).then(result => {
+        console.log("\tInsert: ", result.result);
+        return {result: "Successful init configs collection"};
+    }).catch(error => {
+        console.log("ERROR: ", error);
+    });
+}
+
 MongoClient.connect(url, {useNewUrlParser: true}).then(conn => {
     client = conn;
     db = client.db(dbname);
-    collection = db.collection("items");
-    return collection.remove({});
+    coll_items = db.collection("items");
+    coll_catalogs = db.collection("catalogs");
+    coll_configs = db.collection("configs");
+    return init_items_collection();
 }).then(result => {
-    console.log("Result of remove: ", result.result);
-    return collection.insert(items);
+    console.log(result.result);
+    return init_catalogs_collection();
 }).then(result => {
-    console.log("Result of insert: ", result.result);
-    return collection.dropIndexes();
+    console.log(result.result);
+    return init_configs_collection();
 }).then(result => {
-    console.log("Result of drop indexes: ", result);
-    collection.createIndex("title");
-    collection.createIndex({title: "text", "category": "text", keywords: "text"});
-    console.log("Created Index for title & textsearch");
+    console.log(result.result);
     client.close();
 }).catch(error => {
     console.log("ERROR: ", error);

@@ -1,130 +1,77 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {Carousel, CarouselItem, CarouselCaption, CarouselIndicators, CarouselControl, Row, Col, Container} from 'reactstrap';
+import {Row, Col, Container} from 'reactstrap';
 import './dist/style.css';
 import {Link } from 'react-router-dom';
 
-const items = [
-  {
-    src: '/img/1.jpg',
-    altText: 'Slide 1',
-    caption: 'Slide 1'
-  },
-  {
-    src: '/img/2.jpg',
-    altText: 'Slide 2',
-    caption: 'Slide 2'
-  },
-  {
-    src: '/img/3.jpg',
-    altText: 'Slide 3',
-    caption: 'Slide 3'
-  }
-];
+import CarouselSlides from "./CarouselSlides";
+
+const Card = (props) => (
+    <Col key={props.idx}>
+      <Link to="/catalog" className="catalog-card">
+        <img src={props.item.thumbnail} alt={props.item.thumbnail} className="rounded"/>
+        <div className="catalog-name d-flex align-items-center justify-content-around">
+          <span className="d-flex">{props.item.category}</span>
+        </div>
+      </Link>
+    </Col>
+);
+
+function Catalogs(props) {
+    let c1 = props.catalogs.map((item, i) => (
+        i < 5 ? (<Card item={item} idx={i} key={i}/>) : ''
+    ));
+    let c2 = props.catalogs.map((item, i) => (
+        i > 4 ? (<Card item={item} idx={i} key={i}/>) : ''
+    ));
+    return (
+        <section className="catalogs">
+          <Container>
+            <Row>{c1}</Row>
+            <Row>{c2}</Row>
+          </Container>
+        </section>
+    );
+}
+
 class Home extends Component {
     constructor(props) {
-      super(props);
-      this.state = { activeIndex: 0 };
-      this.next = this.next.bind(this);
-      this.previous = this.previous.bind(this);
-      this.goToIndex = this.goToIndex.bind(this);
-      this.onExiting = this.onExiting.bind(this);
-      this.onExited = this.onExited.bind(this);
+        super(props);
+        this.state = {catalogs: []};
     }
 
-    onExiting() {
-      this.animating = true;
+    componentDidMount() {
+        this.loadData();
     }
 
-    onExited() {
-      this.animating = false;
+    loadData() {
+        fetch("/api/catalogs").then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    this.setState({catalogs: data.catalogs});
+                });
+            } else {
+                response.json().then(error => {
+                    console.log("Failed to get /api/catalogs: " + error.message);
+                });
+            }
+        }).catch(error => {
+            console.log("Failed to get /api/catalogs: ", error);
+        });
     }
 
-    next() {
-      if (this.animating) return;
-      const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
-      this.setState({ activeIndex: nextIndex });
-    }
-
-    previous() {
-      if (this.animating) return;
-      const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
-      this.setState({ activeIndex: nextIndex });
-    }
-
-    goToIndex(newIndex) {
-      if (this.animating) return;
-      this.setState({ activeIndex: newIndex });
-    }
-    createCard(item, i) {
-      return (
-        <Col key={i}>
-          <Link to="/catalog" className="catalog-card">
-            <img src='/img/example.jpg' className="rounded"/>
-            <div class="catalog-name d-flex align-items-center justify-content-around"> <span className="d-flex">{item}</span> </div>
-          </Link>
-        </Col>
-      )
-    }
     render() {
-      let catalog = ['竞技', '美术', '民俗', '曲艺', '手工艺', '文学', '舞蹈', '戏剧', '医药', '音乐'];
-      let c1 = catalog.map((item, i)=>(i<5?(this.createCard(item, i)):''));
-      let c2 = catalog.map((item, i)=>(i>4?(this.createCard(item, i)):''));
-      let catalogs = catalog.map((item) => (<div key={item}>{item}</div>));
-      
-      const slides = items.map((item) => {
         return (
-          <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.src}>
-            <img className="image-fluid" src={item.src} alt={item.altText} />
-            <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
-          </CarouselItem>
-        )
-      })
-        return (
-       <div>
-         <Carousel
-        activeIndex={this.state.activeIndex}
-        next={this.next}
-        previous={this.previous}
-        className="carousel-fade"
-         >
-        <CarouselIndicators items={items} activeIndex={this.state.activeIndex} onClickHandler={this.goToIndex} />
-        {slides}
-        <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-        <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-      </Carousel>
-      <section className="catalogs">
-        <Container>
-          <Row>
-            {c1}
-          </Row>
-          <Row>
-            {c2}
-          </Row>
-        </Container>
-      </section>
-      <section className="tangka">
-      
-      </section>
-
-        <div className="carousel container">
-          <Row>
-          {catalogs}
-          </Row>
-        </div>
-        <div className="carousel container">very high</div>
-        <div className="carousel container">very high</div>
-
-      </div>)
+            <div>
+              <CarouselSlides/>
+              <Catalogs catalogs={this.state.catalogs}/>
+              <section className="tangka"/>
+              <div className="carousel container">very high</div>
+              <div className="carousel container">very high</div>
+            </div>
+        );
     }
 }
 export default Home;
-      
-     
-      
 
-
-
-
-       

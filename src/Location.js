@@ -3,7 +3,7 @@ import './dist/style.css';
 import ReactEcharts from 'echarts-for-react';  // or var ReactEcharts = require('echarts-for-react');
 import { withRouter } from 'react-router-dom';
 import echarts from 'echarts';
-require('echarts/map/js/province/qinghai.js')
+require('echarts/map/js/province/qinghai.js');
 
 
 var levelColorMap = {
@@ -20,7 +20,7 @@ var cityMap = {
     '玉树藏族自治州': '632700',
     '海西蒙古族藏族自治州': '632800',
     '海东市': '630200'
-}
+};
 var opt = {
     bgColor: '#154e90', // 画布背景色
     goDown: true,
@@ -34,7 +34,7 @@ var opt = {
 
 class Location extends Component {
     onChartClick(params, b) {
-        if (params.componentType == 'series') {
+        if (params.componentType === 'series') {
             this.props.history.push('/detail/' + params.data[3]);
         }
         if (opt.goDown && params.name !== this.name[this.idx]) {
@@ -42,7 +42,7 @@ class Location extends Component {
                 if (this.state.self == null) {
                     this.setState({
                         self: this.echarts_react.getEchartsInstance()
-                    })
+                    });
                 }
                 var url = cityMap[params.name];
                 fetch('../map/' + url + '.json')
@@ -50,7 +50,7 @@ class Location extends Component {
                     .then((data) => {
                         echarts.registerMap(params.name, data);
                         this.resetOption(this.state.self, this.getOption(), params.name);
-                    }, (e) => { console.log(e) })
+                    }, (e) => { console.log(e) });
 
                 //console.log(json);
                 //     fetch('/public/map/'+url+'.json').then(function(response){
@@ -69,7 +69,7 @@ class Location extends Component {
             //lng                  lat                  name      id      city
             [101.16317752227995, 36.636354795068264, '湟源陈醋', '湟源陈醋', '西宁市'],
             [101.46570700813312, 36.9093545903124, '陈家滩木雕', '陈家滩木雕', '西宁市']
-        ]
+        ];
     }
     resetOption(i, o, n) {
         var breadcrumb = this.createBreadcrumb(n, this);
@@ -143,7 +143,7 @@ class Location extends Component {
                     _self.resetOption(_self.state.self, _self.getOption(), name);
                 }
             }]
-        }
+        };
 
         _self.pos.leftCur += _self.pos.leftPlus;
         return breadcrumb;
@@ -176,7 +176,7 @@ class Location extends Component {
         this.resetOption = this.resetOption.bind(this);
         this.onEvents = {
             'click': this.onChartClick
-        }
+        };
         this.state = {
             self: null
         };
@@ -344,7 +344,7 @@ class Location extends Component {
                                         }
                                     }
                                 }
-                            }
+                            };
                         } else {
                             return {
                                 name: item,
@@ -354,7 +354,7 @@ class Location extends Component {
                                         areaColor: '#389BB7'
                                     }
                                 }
-                            }
+                            };
                         }
                     })
                 },
@@ -385,7 +385,7 @@ class Location extends Component {
                     }
                 ],
 
-            }
+            };
         }
         return this.option;
 
@@ -403,7 +403,7 @@ class Location extends Component {
                     theme={"theme_name"}
                 />
             </div>
-        )
+        );
     }
 }
 export default withRouter(Location);
