@@ -9,7 +9,7 @@ class GotoTop extends Component {
 
 
       <div title="回到顶部">
-        <ScrollUpButton ContainerClassName="gotoTop" style={{'bottom': '60px'}}/>
+        <ScrollUpButton ContainerClassName="gotoTop" style={{'bottom': '60px'}} TransitionBtnPosition={300}/>
       </div>
 
             

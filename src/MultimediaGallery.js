@@ -69,7 +69,7 @@ class MultimediaGallery extends Component {
             <ImageGallery
               items={items}
               onSlide={this._onSlide}
-              lazyLoad={false}
+              lazyLoad={true}
               showIndex={true}
               thumbnailPosition="top"
               showPlayButton={false} />

@@ -7,6 +7,14 @@
     .detail-gallery {
         margin: 20px auto;
         width: 70%;
+        .image-gallery-slide {
+            text-align: center;
+            background-color: transparent;
+        }
+        .image-gallery-slide img {
+            max-height: 450px;
+            width: auto;
+        }
     }
     .detail-content {
         margin: 20px auto;
