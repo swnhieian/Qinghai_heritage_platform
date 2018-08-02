@@ -1,3 +1,6 @@
+* {
+  outline: none;
+}
 body {
     font-family: $font-stack;
     //background-color: $nav-bg;
@@ -59,30 +62,6 @@ $sidebar-width: 260px;
     text-align: center;
   }
 
-  .gotoTop {
-    position: fixed;
-    right: 20px;
-    bottom: 50px;
-    outline: none;
-    button.scroll {
-        opacity: 0.3;
-        background-color: #444;
-        width: 40px;
-        height: 40px;
-        border-radius: 5px;
-        border: none;
-        outline: none;
-        
-        &:hover {
-          opacity: 1;
-        }
-      }
-      
-      .arrow-up {
-        color: #ff6464;
-      }
-        
-  }
   .stl-viewer-container {
     padding: 50px;
     .stl-viewer {
