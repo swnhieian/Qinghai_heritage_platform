@@ -2,6 +2,8 @@
    This script converts mp4 video files to H264.AAC codecs (when needed), and OVERRIDE the original video files.
 */
 
+require("dotenv").config();
+
 const path = require("path");
 const fs = require("fs");
 const glob = require("glob");
@@ -12,11 +14,12 @@ const ffprobe = require('ffprobe');
 // require HandbrakeCLI installed and placed under node_modules/handbrake-js/.bin
 const hbjs = require('handbrake-js'); 
 
+const MAX_VIDEO_HEIGHT = 600;
+const CONVERT_VIDEO_HEIGHT = 480;
 let pattern = path.join(__dirname, "..", "public", "img", "*", "*", "*.mp4");
-let ffprobe_binary = "d:/Softwares/ffmpeg-20180723/bin/ffprobe.exe";
+let ffprobe_binary = process.env.FFPROBE_BINARY || "/usr/bin/ffprobe";
 
-
-function tryConvertAsync(filepath) {
+function tryConvertAsync(filepath, width, height) {
     const output_wo_ext = path.join(
         path.dirname(filepath),
         path.basename(filepath, path.extname(filepath)));
@@ -34,6 +37,8 @@ function tryConvertAsync(filepath) {
         input: filepath,
         output: tmp_output,
         preset: "Normal",
+        width: width,
+        height: height,
     };
     console.log(`\tConverting....`);
     let currProcess = 0;
@@ -67,15 +72,22 @@ glob(pattern, (error, files) => {
         ffprobe(filepath, { path: ffprobe_binary })
             .then(info => {
                 console.log(filepath);
-                let codecs = {
+                info = {
                     video: info.streams[0].codec_name,
                     audio: info.streams[1].codec_name,
+                    width: info.streams[0].width,
+                    height: info.streams[0].height,
                 };
-                console.log(`\tvideo.audio = ${codecs.video}.${codecs.audio}`);
-                if (codecs.video === "h264" && codecs.audio === "aac") {
-                    console.log("\tPass... Valid file...");
+                console.log(`\tvideo.audio = ${info.video}.${info.audio}`);
+                console.log(`\twidth.height = ${info.width}.${info.height}`);
+                if (info.video === "h264" && info.audio === "aac"
+                    && info.height <= MAX_VIDEO_HEIGHT) {
+                    console.log("\tPass... Valid file codecs and dimensions...");
                 } else {
-                    tryConvertAsync(filepath);
+                    const height = info.height <= MAX_VIDEO_HEIGHT
+                        ? info.height : CONVERT_VIDEO_HEIGHT;
+                    const width = Math.round(height * info.width / info.height);
+                    tryConvertAsync(filepath, width, height);
                 }
             });
     }
