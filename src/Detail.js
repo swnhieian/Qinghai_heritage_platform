@@ -6,7 +6,6 @@ import {Container, Row, Col} from 'reactstrap';
 import GotoTop from './GotoTop';
 import {Redirect} from 'react-router-dom';
 
-
 class Detail extends Component {
     constructor() {
         super();
@@ -71,10 +70,11 @@ class Detail extends Component {
                     <div className='detail-content'>
                       {content}
                     </div>
+                    {details.gallery.length == 0?'':
                     <div className='detail-gallery'>
                       <MultimediaGallery className="detail-gallery"
                                          items={details.gallery}/>
-                    </div> 
+                    </div> }
                   </Col>
                 </Row>
               </Container> 
