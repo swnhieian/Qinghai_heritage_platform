@@ -9,7 +9,7 @@ import * as Scroll from 'react-scroll';
 
 const SidebarItem = (props) => (
     <li className="sidebar-item" key={props.item.id}>
-      <Scroll.Link className="sidebar-link"
+      <Scroll.Link className="sidebar-link" hashSpy={true}
                    offset={-50} duration={500} to={props.item.id}
                    spy={true} smooth={true}>
         {props.item.name}
