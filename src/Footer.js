@@ -6,10 +6,10 @@ class Footer extends Component {
         return (
             <div className="footer">
             <div>
-                <strong>Copyright</strong> Example Company &copy; 2014-2015
+                <strong>Copyright</strong> 2018 图像与虚拟现实组版权所有
             </div>
         </div>
-        )
+        );
     }
 }
 export default Footer;

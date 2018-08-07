@@ -73,12 +73,15 @@ class Home extends Component {
                     <p className="lead">也叫唐嘎，唐喀，系藏文音译，指用彩缎装裱后悬挂供奉的宗教卷轴画。唐卡是藏族文化中一种独具特色的绘画艺术形式，题材内容涉及藏族的历史、政治、文化和社会生活等诸多领域，传世唐卡大都是藏传佛教和本教作品。</p>
                     <hr className="my-4" /> <p>青海非物质文化博物馆的宗旨：让所有青海非物质文化遗产三维化，让人可以通过视频、音频、AR、VR等方式了解和传承青海非物质文化遗产。</p>
                     <p className="lead">
-                      <a href="http://192.168.1.102:8080/web3dproduct/ArtAndCraft/tangkaindex" target="_blank"><button className="btn btn-outline-light btn-lg">中国唐卡图像数字博物馆</button></a>
-                  </p></Container>
+                      <a href="http://192.168.1.102:8080/web3dproduct/ArtAndCraft/tangkaindex" target="_blank">
+                        <button className="btn btn-outline-light btn-lg">中国唐卡图像数字博物馆</button>
+                      </a>
+                    </p>
+                  </Container>
                 </div>
               </div>
-              <div className="carousel container">very high</div>
-              <div className="carousel container">very high</div>
+              <div className="carousel container">本团队隶属于青海大学计算机技术与应用系，成立于2015年9月。团队的主要研究方向是数字可视化与媒体计算，目前本团队的可用硬件资源有：国家重点实验室一个，3D打印机若干，动捕设备，三维扫描仪等。 团队目前有在职教师2人，在读硕士研究生5人，在读本科生若干。本团队有良好的学习科研氛围，有积极的工程经验。本团队与清华大学联系密切，具有良好的技术支撑。共赢未来！</div>
+              <div className="carousel container"></div>
             </div>
         );
     }
