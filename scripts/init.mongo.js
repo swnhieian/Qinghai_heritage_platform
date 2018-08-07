@@ -9,7 +9,7 @@ const path = require("path");
 const glob = require("glob");
 const fs = require("fs");
 
-let items_pattern = path.join(__dirname, "..", "json_db", "*", "*.json");
+let items_pattern = path.join(__dirname, "..", "public", "img", "*", "*", "*.json");
 let items;
 glob(items_pattern, (error, files) => {
     if (error) {
@@ -18,8 +18,8 @@ glob(items_pattern, (error, files) => {
     }
     items = files.map(filepath => {
         let rawjson = fs.readFileSync(filepath);
+        console.log("Reading DB-item: " + filepath);
         let item = JSON.parse(rawjson);
-        console.log("Read DB-item: " + filepath);
         return item;
     });
 });

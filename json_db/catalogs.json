@@ -1,7 +1,7 @@
 [
     {
-        "category": "竞技",
-        "thumbnail": "/img/竞技/竞技.jpg"
+        "category": "杂技与竞技",
+        "thumbnail": "/img/杂技与竞技/杂技与竞技.jpg"
     },
     {
         "category": "民俗",
@@ -12,31 +12,31 @@
         "thumbnail": "/img/曲艺/曲艺.jpg"
     },
     {
-        "category": "手工艺",
-        "thumbnail": "/img/手工艺/手工艺.jpg"
+        "category": "传统手工艺",
+        "thumbnail": "/img/传统手工艺/传统手工艺.jpg"
     },
     {
-        "category": "文学",
-        "thumbnail": "/img/文学/文学.jpg"
+        "category": "民间文学",
+        "thumbnail": "/img/民间文学/民间文学.jpg"
     },
     {
-        "category": "舞蹈",
-        "thumbnail": "/img/舞蹈/舞蹈.jpg"
+        "category": "民间舞蹈",
+        "thumbnail": "/img/民间舞蹈/民间舞蹈.jpg"
     },
     {
-        "category": "戏剧",
-        "thumbnail": "/img/戏剧/戏剧.jpg"
+        "category": "传统戏剧",
+        "thumbnail": "/img/传统戏剧/传统戏剧.jpg"
     },
     {
-        "category": "医药",
-        "thumbnail": "/img/医药/医药.jpg"
+        "category": "传统医药",
+        "thumbnail": "/img/传统医药/传统医药.jpg"
     },
     {
-        "category": "音乐",
-        "thumbnail": "/img/音乐/音乐.jpg"
+        "category": "民间音乐",
+        "thumbnail": "/img/民间音乐/民间音乐.jpg"
     },
     {
-        "category": "美术",
-        "thumbnail": "/img/美术/美术.jpg"
+        "category": "民间美术",
+        "thumbnail": "/img/民间美术/民间美术.jpg"
     }
 ]
