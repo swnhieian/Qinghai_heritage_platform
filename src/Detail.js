@@ -5,6 +5,7 @@ import MultimediaGallery from "./MultimediaGallery";
 import {Container, Row, Col} from 'reactstrap';
 import GotoTop from './GotoTop';
 import {Redirect} from 'react-router-dom';
+import {animateScroll as scroll} from 'react-scroll';
 
 class Detail extends Component {
     constructor() {
@@ -22,6 +23,7 @@ class Detail extends Component {
                 response.json().then(data => {
                     this.setState({details: data.item, loaded: true});
                 });
+                scroll.scrollToTop({delay:0, duration:0});
             } else {
                 response.json().then(error => {
                     console.log("Failed to get /api/items: " + error.message);

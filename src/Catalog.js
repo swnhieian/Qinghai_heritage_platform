@@ -108,9 +108,6 @@ function utf8ToChar(str) {
 class Catalog extends Component {
     constructor(props) {
         super(props);
-        
-
-
         this.state = {sidebarData: [], location: props.location};
     }
 
@@ -127,7 +124,8 @@ class Catalog extends Component {
                     this.setState({sidebarData: data.categories});
                     if (this.state.location.hash) {
                         Scroll.scroller.scrollTo(getCharFromUtf8(this.state.location.hash.slice(1)), {
-                            duration: 500,
+                            duration: 0,
+                            delay: 0,
                             smooth: true,
                             spy: true,
                             hashSpy: true,
