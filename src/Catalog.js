@@ -35,7 +35,7 @@ const ContentItem = (props) => (
     <Col lg="4" key={props.item.id}> 
       <div className="heritage-card">                                 
         <Link to={'/detail/'+ props.item.id} className="heritage-link"
-              style={{backgroundImage:`url(${props.item.thumbnail})`}}>
+              style={{backgroundImage:'url("'+props.item.thumbnail+'")'}}>
           <div className="heritage-name">{props.item.name}</div>
         </Link>
       </div>
