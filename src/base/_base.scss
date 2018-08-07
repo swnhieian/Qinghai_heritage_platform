@@ -17,9 +17,9 @@ html,body {
 }
 
 .page-content {
-  padding-top: $topBar-height;
+  margin-top: $topBar-height;
   min-height: $min-page-height;
-  //padding: 0;
+  padding: 0;
 }
 $sidebar-width: 260px; 
 .with-sidebar {

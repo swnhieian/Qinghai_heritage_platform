@@ -60,7 +60,7 @@ class TopBar extends Component {
               <NavLink tag={Link} to="/location">地图</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={Link} to="/about">关于</NavLink>
+              <NavLink tag={Link} to="/about">3D</NavLink>
             </NavItem>          
           </Nav>  
           <Form inline>
