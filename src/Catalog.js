@@ -51,7 +51,7 @@ function ContentCategory(props) {
     const items = props.items.map(
         item => <ContentItem item={item} key={item.id}/>);
     return (
-        <Scroll.Element id={props.id} name={props.id} key={props.id}>
+        <Scroll.Element className="section" id={props.id} name={props.id} key={props.id}>
           <div className="catalog-header"><h2>{props.name}</h2></div>
           <Container className="catalog-content">
             <Row>{items}</Row>

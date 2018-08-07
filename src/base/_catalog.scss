@@ -21,14 +21,14 @@
 }
 .with-sidebar {
     margin-left: $sidebar-width;   
-    section:nth-child(even) {
+    .section:nth-child(even) {
         background-color: #f7f7f7;
     }
 
-    section:nth-child(odd) {
+    .section:nth-child(odd) {
         background-color: #fff;
     }
-    section {
+    .section {
         padding: 30px
     }
 
