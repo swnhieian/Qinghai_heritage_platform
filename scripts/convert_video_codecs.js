@@ -11,12 +11,13 @@ const glob = require("glob");
 // require ffprobe binary installed in ${ffprobe_binary}
 const ffprobe = require('ffprobe');
 
-// require HandbrakeCLI installed and placed under node_modules/handbrake-js/.bin
+// windows: require HandbrakeCLI installed and placed under node_modules/handbrake-js/.bin
+// Linux: apt install handbrake-cli
 const hbjs = require('handbrake-js'); 
 
-const MAX_VIDEO_HEIGHT = 600;
-const CONVERT_VIDEO_HEIGHT = 480;
-let pattern = path.join(__dirname, "..", "public", "img", "*", "*", "*.mp4");
+const MAX_VIDEO_HEIGHT = 1080;
+const CONVERT_VIDEO_HEIGHT = 720;
+let pattern = path.join(__dirname, "..", "public", "img", "*", "*", "*.@(mp4|MP4|flv|FLV|mts|MTS)");
 let ffprobe_binary = process.env.FFPROBE_BINARY || "/usr/bin/ffprobe";
 
 function tryConvertAsync(filepath, width, height) {
@@ -24,15 +25,11 @@ function tryConvertAsync(filepath, width, height) {
         path.dirname(filepath),
         path.basename(filepath, path.extname(filepath)));
     const tmp_output = output_wo_ext + ".tmp";
-    // const output = output_wo_ext + ".H264.AAC.mp4";
+    const mp4_output = output_wo_ext + ".mp4"
     if (fs.existsSync(tmp_output)) {
         fs.unlinkSync(tmp_output);
         console.log("\tUnlink tmp output...");
     }
-    // if (fs.existsSync(output)) {
-    //     console.log("\tPass... H264.AAC file exists..");
-    //     return;
-    // }
     const options = {
         input: filepath,
         output: tmp_output,
@@ -53,13 +50,15 @@ function tryConvertAsync(filepath, width, height) {
             }
         })
         .on("complete", () => {
-            // fs.renameSync(tmp_output, output);
-            // console.log(`\tConverted ${output}`);
-            const filepath_tmp = filepath + ".tmp";
-            fs.renameSync(filepath, filepath_tmp);
-            fs.renameSync(tmp_output, filepath);
-            fs.unlinkSync(filepath_tmp);
-            console.log(`\tConverted and OVERRIDE ${filepath}`);
+            if (fs.existsSync(tmp_output)) {
+                const filepath_tmp = filepath + ".tmp";
+                fs.renameSync(filepath, filepath_tmp);
+                fs.renameSync(tmp_output, mp4_output);
+                fs.unlinkSync(filepath_tmp);
+                console.log(`\tConverted and OVERRIDE ${filepath} => ${mp4_output}`);
+            } else {
+                console.log(`\tError occurred: ${filepath}`)
+            }
         });
 }
 
@@ -72,6 +71,7 @@ glob(pattern, (error, files) => {
         ffprobe(filepath, { path: ffprobe_binary })
             .then(info => {
                 console.log(filepath);
+                const ext = path.extname(filepath).toLowerCase();
                 info = {
                     video: info.streams[0].codec_name,
                     audio: info.streams[1].codec_name,
@@ -80,9 +80,9 @@ glob(pattern, (error, files) => {
                 };
                 console.log(`\tvideo.audio = ${info.video}.${info.audio}`);
                 console.log(`\twidth.height = ${info.width}.${info.height}`);
-                if (info.video === "h264" && info.audio === "aac"
+                if (ext === ".mp4" && info.video === "h264" && info.audio === "aac"
                     && info.height <= MAX_VIDEO_HEIGHT) {
-                    console.log("\tPass... Valid file codecs and dimensions...");
+                    console.log("\tPass... Valid file ext & codecs & dimensions...");
                 } else {
                     const height = info.height <= MAX_VIDEO_HEIGHT
                         ? info.height : CONVERT_VIDEO_HEIGHT;
