@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {Link} from 'react-router-dom';
 import {Container, Row, Col} from 'reactstrap';
 import '@fortawesome/fontawesome-free/css/all.css';
@@ -7,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './dist/style.css';
 import * as Scroll from 'react-scroll';
 
+
+  
 const SidebarItem = (props) => (
     <li className="sidebar-item" key={props.item.id}>
       <Scroll.Link className="sidebar-link" hashSpy={true}
@@ -36,7 +37,11 @@ const ContentItem = (props) => (
       <div className="heritage-card">                                 
         <Link to={'/detail/'+ props.item.id} className="heritage-link"
               style={{backgroundImage:'url("'+props.item.thumbnail+'")'}}>
-          <div className="heritage-name">{props.item.name}</div>
+          <div className="heritage-info d-flex align-items-center justify-content-around">
+            <div className="heritage-name">
+              {props.item.name}
+            </div>
+          </div>
         </Link>
       </div>
     </Col>
@@ -46,12 +51,12 @@ function ContentCategory(props) {
     const items = props.items.map(
         item => <ContentItem item={item} key={item.id}/>);
     return (
-        <section id={props.id} key={props.id}>
+        <Scroll.Element id={props.id} name={props.id} key={props.id}>
           <div className="catalog-header"><h2>{props.name}</h2></div>
           <Container className="catalog-content">
             <Row>{items}</Row>
           </Container>
-        </section>
+        </Scroll.Element>
     );
 }
 
@@ -74,6 +79,7 @@ class Catalog extends Component {
 
     componentDidMount() {
         this.loadData();
+        Scroll.scrollSpy.update();
     }
 
     loadData() {
@@ -95,7 +101,7 @@ class Catalog extends Component {
     render() {
 
         return (
-            <div className="catalog-wrapper">
+            <div className="catalog-wrapper" id="content">
               <Sidebar items={this.state.sidebarData}/>
               <ContentPane categories={this.state.sidebarData}/>
             </div>
