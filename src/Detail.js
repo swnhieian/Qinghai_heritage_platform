@@ -72,7 +72,7 @@ class Detail extends Component {
                     <div className='detail-content'>
                       {content}
                     </div>
-                    {details.gallery.length == 0?'':
+                    {details.gallery.length === 0 ? '' :
                     <div className='detail-gallery'>
                       <MultimediaGallery className="detail-gallery"
                                          items={details.gallery}/>

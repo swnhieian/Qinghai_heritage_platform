@@ -11,10 +11,20 @@
             text-align: center;
             background-color: transparent;
         }
-        .image-gallery-slide img {
-            max-height: 450px;
-            width: auto;
+        .image-gallery-slide {
+            img {
+                max-height: 550px;
+                height: 550px;
+                width: auto;
+            }
+            .image-gallery-image {
+                span.image-gallery-description {
+                    right: 0px;
+                    left: initial;
+                }
+            }
         }
+        
     }
     .detail-content {
         margin: 20px auto;

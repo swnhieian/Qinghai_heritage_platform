@@ -53,7 +53,7 @@ app.get("/api/catalog_groups", (req, res) => {
     ]).toArray().then(categories => {
         res.json({categories: categories});
     }).catch(error => {
-        console.log("API Server ERROR at /api/items/:title: ", error);
+        console.log("API Server ERROR at /api/catalog_group: ", error);
         res.status(500).json({message: `API Server ERROR: ${error}`});
     });
 });
@@ -64,7 +64,7 @@ app.get("/api/locations", (req, res) => {
     }).toArray().then(locations => {
         res.json({locations: locations});
     }).catch(error => {
-        console.log("API Server ERROR at /api/items/:title: ", error);
+        console.log("API Server ERROR at /api/locations: ", error);
         res.status(500).json({message: `API Server ERROR: ${error}`});
     });
 });

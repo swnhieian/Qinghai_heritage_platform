@@ -1,19 +1,22 @@
 {
     "home_carousel_slides": [
         {
-            "src": "/img/民俗/热贡六月会/热贡六月.jpg",
-            "altText": "/img/民俗/热贡六月会/热贡六月.jpg",
-            "caption": "热贡六月会"
-        },
-        {
-            "src": "/img/传统手工艺/加牙藏族织毯技艺/P71115-105819.jpg",
-            "altText": "/img/传统手工艺/加牙藏族织毯技艺/P71115-105819.jpg",
-            "caption": "加牙藏族织毯技艺"
-        },
-        {
             "src": "/img/民间美术/湟中堆绣/堆绣3.jpg",
             "altText": "/img/民间美术/湟中堆绣/堆绣3.jpg",
-            "caption": "湟中堆绣"
+            "caption": "湟中堆绣",
+            "url": "/detail/湟中堆绣"
+        },
+        {
+            "src": "/img/民间文学/年宝玉则雪山神话传说/年宝玉则4.jpg",
+            "altText": "/img/民间文学/年宝玉则雪山神话传说/年宝玉则4.jpg",
+            "caption": "年宝玉则雪山神话传说",
+            "url": "/detail/年宝玉则雪山神话传说"
+        },
+        {
+            "src": "/img/民俗/热贡六月会/热贡六月.jpg",
+            "altText": "/img/民俗/热贡六月会/热贡六月.jpg",
+            "caption": "热贡六月会",
+            "url": "/detail/热贡六月会"
         }
     ]
 }

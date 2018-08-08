@@ -1,12 +1,16 @@
-$carousel-height: 50vh;
+$carousel-height: 55vh;
 .carousel {
+    background-color: #4f4f4f;
     max-height: $carousel-height;
+    overflow: hidden;
     margin-top: $topBar-height; 
     .carousel-inner {
+        text-align:center;
         .carousel-item {
             img {
-                height: $carousel-height;
-                min-width: 100%;
+                    height: $carousel-height;
+                    width: auto;
+                    // min-width: 100%;
             }
         }
     }
@@ -19,7 +23,7 @@ $carousel-height: 50vh;
             font-weight: 700;
         }
     }
-  } 
+} 
 .carousel-fade {
     .carousel-inner .item {
         opacity: 0;
@@ -54,7 +58,7 @@ width: 6%;
 }
 .catalogs {
     $padding: 30px;
-    min-height: 40vh;
+    min-height: 30vh;
     margin: $padding;
     .col {
         overflow: hidden;
@@ -114,4 +118,7 @@ width: 6%;
         color: #fff;
         font-size: 50px;
     }
+}
+.contact {
+    margin: 100px auto;
 }

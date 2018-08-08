@@ -75,16 +75,15 @@ function ContentPane(props) {
 function getCharFromUtf8(str) {
     var cstr = "";
     var nOffset = 0;
-    if (str == "")
-        return "";
+    if (str === "") return "";
     str = str.toLowerCase();
     nOffset = str.indexOf("%e");
-    if (nOffset == -1)
+    if (nOffset === -1)
         return str;
-    while (nOffset != -1) {
+    while (nOffset !== -1) {
         cstr += str.substr(0, nOffset);
         str = str.substr(nOffset, str.length - nOffset);
-        if (str == "" || str.length < 9)
+        if (str === "" || str.length < 9)
             return cstr;
         cstr += utf8ToChar(str.substr(0, 9));
         str = str.substr(9, str.length - 9);
@@ -96,14 +95,11 @@ function getCharFromUtf8(str) {
 //将编码转换成字符
 function utf8ToChar(str) {
     var iCode, iCode1, iCode2;
-    iCode = parseInt("0x" + str.substr(1, 2));
-    iCode1 = parseInt("0x" + str.substr(4, 2));
-    iCode2 = parseInt("0x" + str.substr(7, 2));
+    iCode = parseInt("0x" + str.substr(1, 2), 16);
+    iCode1 = parseInt("0x" + str.substr(4, 2), 16);
+    iCode2 = parseInt("0x" + str.substr(7, 2), 16);
     return String.fromCharCode(((iCode & 0x0F) << 12) | ((iCode1 & 0x3F) << 6) | (iCode2 & 0x3F));
 }
-
-
-
 
 class Catalog extends Component {
     constructor(props) {

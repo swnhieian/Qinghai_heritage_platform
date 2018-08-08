@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 class MultimediaGallery extends Component {
 
@@ -63,6 +64,7 @@ class MultimediaGallery extends Component {
             } else {
                 item.thumbnail = item.original;
             }
+            item.description = item.caption;
             return item;
         });
         return (
