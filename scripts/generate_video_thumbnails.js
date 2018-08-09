@@ -2,6 +2,7 @@
 
 const ThumbnailGenerator = require('video-thumbnail-generator').default;
 
+const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
 
@@ -11,8 +12,12 @@ glob(pattern, (error, files) => {
         console.log("ERROR: ", error);
         process.exit(-1);
     }
-    console.log(files);
     for (let filepath of files) {
+        const output = `${filepath}.thumbnail.jpg`;
+        if (fs.existsSync(output)) {
+            console.log(`Skip ${filepath}`);
+            continue;
+        };
         const tg = new ThumbnailGenerator({
             sourcePath: filepath,
             thumbnailPath: path.dirname(filepath),

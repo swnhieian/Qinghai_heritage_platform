@@ -17,15 +17,15 @@ const hbjs = require('handbrake-js');
 
 const MAX_VIDEO_HEIGHT = 1080;
 const CONVERT_VIDEO_HEIGHT = 720;
-let pattern = path.join(__dirname, "..", "public", "img", "*", "*", "*.@(mp4|MP4|flv|FLV|mts|MTS)");
-let ffprobe_binary = process.env.FFPROBE_BINARY || "/usr/bin/ffprobe";
+const pattern = path.join(__dirname, "..", "public", "img", "*", "*", "*.@(mp4|MP4|flv|FLV|mts|MTS)");
+const ffprobe_binary = process.env.FFPROBE_BINARY || "/usr/bin/ffprobe";
 
 function tryConvertAsync(filepath, width, height) {
     const output_wo_ext = path.join(
         path.dirname(filepath),
         path.basename(filepath, path.extname(filepath)));
     const tmp_output = output_wo_ext + ".tmp";
-    const mp4_output = output_wo_ext + ".mp4"
+    const mp4_output = output_wo_ext + ".mp4";
     if (fs.existsSync(tmp_output)) {
         fs.unlinkSync(tmp_output);
         console.log("\tUnlink tmp output...");
@@ -57,7 +57,7 @@ function tryConvertAsync(filepath, width, height) {
                 fs.unlinkSync(filepath_tmp);
                 console.log(`\tConverted and OVERRIDE ${filepath} => ${mp4_output}`);
             } else {
-                console.log(`\tError occurred: ${filepath}`)
+                console.log(`\tError occurred: ${filepath}`);
             }
         });
 }
