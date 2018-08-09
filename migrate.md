@@ -3,11 +3,11 @@
 ## 概述
 唐卡博物馆网站分成了以下三个工程项目，均放置在`~/Programs/`
 
-- 主网站（`web3dtest`）为[Grails](https://grails.github.io/grails2-doc/2.5.0/guide/single.html#downloadingAndInstalling)项目
-- 静态文件服务器（`apache-tomcat`）
-- 算法后台（`http_test`），提供唐卡检索、草图绘制的后台支持
+- 主网站（web3dtest）为[Grails](https://grails.github.io/grails2-doc/2.5.0/guide/single.html#downloadingAndInstalling)项目
+- 静态文件服务器（apache-tomcat）
+- 算法后台（http_test），提供唐卡检索、草图绘制的后台支持
 
-另外需要`MySQL`数据库支持
+另外需要[`MySQL`](https://www.oracle.com/technetwork/database/mysql/index.html)数据库支持
 
 
 ## MySQL配置
@@ -27,7 +27,7 @@ USE feiyi_DB;
 SOURCE feiyi_db.sql
 ```
 
-## 主网站（`web3dtest`）
+## 主网站（web3dtest）
 
 ### 配置运行环境：
 
@@ -49,7 +49,7 @@ SOURCE feiyi_db.sql
 grails run-app
 ```
 
-## 静态文件服务器（`apache-tomcat`）
+## 静态文件服务器（apache-tomcat）
 
 ### 配置运行环境
 1. Java
@@ -69,7 +69,7 @@ cd apache-tomcat-7.0.82/bin
 可能需要为某些脚本文件添加可执行权限```chmod +x ./bin/*.sh```
 
 
-## 算法后台（`http_test`）
+## 算法后台（http_test）
 
 ### 配置Python运行环境
 

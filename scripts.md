@@ -1,34 +1,99 @@
-# 服务器端代码
+# 脚本说明
 
-由[create-react-app](https://github.com/facebook/create-react-app)建立起的[React](https://github.com/facebook/react)开发框架自带了一个静态文件服务器（webpack-dev-server），随着`react-scripts start` 命令启动，运行在默认的3000端口。为了能够动态获取数据，需要建立一个API后端服务，为前端动态提供数据。
+## 1. scripts/convert\_video\_codecs.js
 
-![servers-diagram](docs-images/server.jpg)
+#### 功能
 
-通过如下配置`package.json`，访问`/api/*`的url将定向至运行在3001端口的API代理服务器。
+将/public/img/中浏览器不支持的视频文件转码，满足以下条件之一的视频文件将被转码并替换：
 
-```json
-  "proxy": {
-    "/api/*": {
-      "target": "http://localhost:3001/"
-    }
-  }
+* 扩展名不是mp4
+* 视频编码不是H264
+* 音频编码不是AAC
+* 视频高度高于设定阈值（代码中设置为1080px）
+
+#### 代码流程
+
+1. 找到`/public/img/*/*/`下的所有`mp4/flv/mts`文件
+2. 分析其编码等信息
+3. 跳过无需转码的视频文件，对需要转码的视频文件进行转码
+4. 转码中的文件会保存到`.tmp`的中间文件中。多个文件的转码是并行的，每完成10%会打印出进度信息
+5. 转码完成后，原视频文件会被删除，生成的`.tmp`文件被重命名为原视频文件名
+
+#### 注意事项
+
+这个脚本需要依赖[ffprobe](https://ffmpeg.org/ffprobe.html)、[handbrake](https://handbrake.fr/)两个外部可执行程序，可如下安装:
+
+- Linux(Ubuntu)：
+
+  ```sh
+  sudo apt install ffmpeg
+  sudo apt install handbrake-cli
+  ```
+
+- Windows: 
+
+1. Download ffprobe binary, declare its location in `.env`，
+   e.g. write the following line in `.env`
+   ```
+   FFPROBE_BINARY="d:/Softwares/ffmpeg-20180723/bin/ffprobe.exe"
+   ```
+2. Download handbrake binary, place the binary under `node_modules/handbrake-js/.bin/`
+
+#### 运行脚本
+
+```sh
+node scripts/convert_video_codecs.js
 ```
 
-参考[create-react-app README](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development) 和 [using-create-react-app-with-a-server](https://www.fullstackreact.com/articles/using-create-react-app-with-a-server/)
 
-该API服务器基于[Nodejs](https://nodejs.org/zh-cn/)，代码位于 `/server/server.js`，在整个网站设计中，其向下连接数据库，向上为前端提供Restful-API。共提供一下几个API：
 
-- `/api/items` 返回所有item的列表
-- `/api/catalogs`  返回所有catalogs的列表
-- `/api/configs`  返回config的字典
-- `/api/items/:title` 返回指定title的item，用于`Detail`页面
-- `/api/catalog_groups` 返回按照category分组的item的title和thumbnail信息，用于`Catalog`页面
-- `/api/locations` 返回item的地理位置信息，用于`Location`页面
-- `/api/textsearch/:keyword` 返回按照指定keyword检索的item，用于`SearchResults`页面
-- `/api/images?page=&perPage=` 返回所有图片的地址，按照给定参数分页，用于`Discovery`瀑布流页面。
+## 2. scripts/generate\_video\_thumbnails.js
 
-### 前端获取数据
+#### 功能
 
-在前端js文件中往往有一个`loadData()`函数，会在恰当的时机使用`fetch()`方法异步调用上述代理服务器提供的API，使用`Promise`控制流程。
+生成`public/img/`中MP4视频文件的缩略图（默认为640x480大小），命名格式为：视频文件名+.thumbnail.jpg
 
-参考[create-react-app README]( https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#fetching-data-with-ajax-requests)
+#### 注意事项
+
+该生成的缩略图用在Detail页面的图片Gallery中
+代码中仅生成了MP4视频格式的缩略图，使用前请保证视频均已转码成MP4格式
+
+#### 运行脚本
+
+```sh
+node scripts/generate_video_thumbnails.js
+```
+
+
+
+
+## 3. scripts/init.mongo.js
+
+#### 功能
+
+根据json文件，初始化数据库。在名为`qinghai_heritage`的DB中共生成三个collection：
+1. items：其中的每个Document对应一个非遗JSON文件（`json_db/*/*.json`）， 对应网站中的一个Detail页面内容。
+2. catalogs：指定首页上的十个类别和其对应的封面图路径。
+3. configs：指定首页上的轮播图路径等。
+数据库初始化中的各项操作均为异步，代码中使用`Promise`规范的`then`方法控制数据库操作流程。
+
+
+#### 注意事项
+
+1. 由于数据量很小，为了方便操作，允许每次增加或更改了json文件都重新初始化所有的数据库。
+2. 可以使用[Native Mongo Shell](https://docs.mongodb.com/manual/mongo/)操作数据，也可以使用可视化的GUI（如[Mongo Compass](https://www.mongodb.com/products/compass)，已在台式机上安装）
+
+#### 运行脚本
+
+```sh
+node scripts/init.mongo.js
+```
+
+## 4. 使用场景：增加一个非物质文化遗产项
+
+1. 按照设计的json模板，写好该项的json文件，放置在`json_db`下相应的文件夹中
+2. 将json文件中相关的图片和视频放置在指定的路径下
+3. 运行`scripts/convert_video_codecs.js`，若新增加的视频需要转码，则会执行转码并覆盖原文件；已转码过的视频不会再进行转码。
+4. 运行`scripts/generate_video_thumbnails.js`，生成视频缩略图；已生成过的缩略图不会再重新生成。
+5. 运行`scripts/init.mongo.js`，初始化所有的数据库。也可用其他方式更改数据库。
+
